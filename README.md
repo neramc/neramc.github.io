@@ -3,8 +3,8 @@
 This Repository is WebPage only Repository.
 _______________________________
 ## chanel
-  • multismp (https://neramc.github.io/multismp/)
-  • Minimalism (https://neramc.github.io/minimalism/)
+   multismp (https://neramc.github.io/multismp/)
+   Minimalism (https://neramc.github.io/minimalism/)
 _______________________________
 ## HTML
   • HTML 5
