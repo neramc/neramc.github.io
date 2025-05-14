@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>미니멀리즘 웹사이트 2025</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- GSAP CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <!-- React and ReactDOM CDN -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f8f8f8;
+            color: #2d2d2d;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        body.dark {
+            background-color: #2d2d2d;
+            color: #f8f8f8;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .animate-text {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const App = () => {
+            const [isDarkMode, setIsDarkMode] = useState(false);
+
+            // 다크 모드 토글
+            const toggleDarkMode = () => {
+                setIsDarkMode(!isDarkMode);
+                document.body.classList.toggle('dark');
+            };
+
+            // GSAP 애니메이션
+            useEffect(() => {
+                gsap.registerPlugin(ScrollTrigger);
+                gsap.from('.animate-text', {
+                    scrollTrigger: {
+                        trigger: '.animate-text',
+                        start: 'top 80%',
+                    },
+                    opacity: 0,
+                    y: 20,
+                    duration: 1,
+                    stagger: 0.2,
+                });
+            }, []);
+
+            return (
+                <div className="container">
+                    <nav className="mb-10">
+                        <a href="#home" className="mx-4 text-lg text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">홈</a>
+                        <a href="#about" className="mx-4 text-lg text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">소개</a>
+                        <a href="#contact" className="mx-4 text-lg text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">연락처</a>
+                    </nav>
+                    <h1 className="animate-text text-5xl font-light mb-6 text-[#8B6F47] dark:text-[#D4A373]">미니멀리즘의 정수</h1>
+                    <p className="animate-text text-lg mb-8 text-gray-600 dark:text-gray-300">
+                        2025년 트렌드를 반영한 간결하고 직관적인 웹 디자인. 단순함 속에서 강렬한 인상을 남깁니다.
+                    </p>
+                    <button
+                        onClick={toggleDarkMode}
+                        className="animate-text px-6 py-3 text-lg font-medium text-[#8B6F47] dark:text-[#D4A373] border border-[#8B6F47] dark:border-[#D4A373] rounded-lg hover:bg-[#8B6F47] dark:hover:bg-[#D4A373] hover:text-white dark:hover:text-[#2d2d2d] transition-all"
+                    >
+                        {isDarkMode ? '라이트 모드' : '다크 모드'}
+                    </button>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
