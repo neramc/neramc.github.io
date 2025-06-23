@@ -2,7 +2,7 @@
 ## WebPage
 This Repository is WebPage only Repository.
 _______________________________
-## chanel
+## channel
    multismp (https://neramc.github.io/multismp/)
    Minimalism (https://neramc.github.io/minimalism/)
 _______________________________
