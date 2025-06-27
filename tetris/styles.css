@@ -1,0 +1,139 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+    overflow-y: auto;
+}
+
+.game-container {
+    text-align: center;
+    padding: 10px;
+}
+
+h1 {
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+
+.score-board {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 10px;
+}
+
+.score, .high-score {
+    font-size: 18px;
+}
+
+.canvas-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    justify-content: center;
+}
+
+canvas#tetris {
+    border: 2px solid #333;
+    background-color: #fff;
+    max-width: 100%;
+}
+
+canvas#next {
+    border: 2px solid #333;
+    background-color: #fff;
+}
+
+.controls {
+    margin-top: 10px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.touch-controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.touch-controls button {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    touch-action: manipulation; /* 모바일 터치 이벤트 최적화 */
+}
+
+.touch-controls button:active {
+    background-color: #45a049;
+}
+
+.game-over {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 90%;
+}
+
+.game-over h2 {
+    margin: 0 0 10px;
+}
+
+.game-over p {
+    margin: 0 0 10px;
+    font-size: 18px;
+}
+
+.game-over button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.game-over button:hover {
+    background-color: #45a049;
+}
+
+.hidden {
+    display: none;
+}
+
+/* 모바일 반응형 디자인 */
+@media (max-width: 600px) {
+    canvas#tetris {
+        width: 240px;
+        height: 480px;
+    }
+    canvas#next {
+        width: 96px;
+        height: 96px;
+    }
+    .game-container {
+        padding: 5px;
+    }
+    .touch-controls button {
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+    }
+}
