@@ -76,13 +76,16 @@ function createPiece() {
     };
 }
 
-// 충돌 감지
+// 충돌 감지 (수정: 보드 경계와 충돌 처리 개선)
 function collide(board, piece) {
     for (let y = 0; y < piece.matrix.length; y++) {
         for (let x = 0; x < piece.matrix[y].length; x++) {
-            if (piece.matrix[y][x] &&
-                (board[piece.y + y] && board[piece.y + y][piece.x + x]) !== 0) {
-                return true;
+            if (piece.matrix[y][x]) {
+                const newX = piece.x + x;
+                const newY = piece.y + y;
+                if (newX < 0 || newX >= 10 || newY >= 20 || (board[newY] && board[newY][newX]) !== 0) {
+                    return true;
+                }
             }
         }
     }
@@ -94,7 +97,11 @@ function merge(board, piece) {
     for (let y = 0; y < piece.matrix.length; y++) {
         for (let x = 0; x < piece.matrix[y].length; x++) {
             if (piece.matrix[y][x]) {
-                board[piece.y + y][piece.x + x] = piece.typeId;
+                const newY = piece.y + y;
+                const newX = piece.x + x;
+                if (newY >= 0) { // 음수 y 좌표 방지
+                    board[newY][newX] = piece.typeId;
+                }
             }
         }
     }
@@ -135,7 +142,7 @@ function drawBoard() {
     if (currentPiece && !gameOver) {
         context.fillStyle = colors[currentPiece.typeId];
         for (let y = 0; y < currentPiece.matrix.length; y++) {
-            for (let x = 0; x < currentPiece.matrix[y].length; x++) {
+            for (let x = 0; x < piece.matrix[y].length; x++) {
                 if (currentPiece.matrix[y][x]) {
                     context.fillRect(currentPiece.x + x, currentPiece.y + y, 1, 1);
                 }
@@ -151,7 +158,7 @@ function drawNextPiece() {
 
     if (nextPiece && !gameOver) {
         nextContext.fillStyle = colors[nextPiece.typeId];
-        const offsetX = (4 - nextPiece.matrix[0].length) / 2; // 중앙 정렬
+        const offsetX = (4 - nextPiece.matrix[0].length) / 2;
         const offsetY = (4 - nextPiece.matrix.length) / 2;
         for (let y = 0; y < nextPiece.matrix.length; y++) {
             for (let x = 0; x < nextPiece.matrix[y].length; x++) {
@@ -314,12 +321,19 @@ document.addEventListener('keydown', event => {
     }
 });
 
-// 터치 버튼 이벤트
+// 터치 버튼 이벤트 (수정: 이벤트 처리 강화)
 leftBtn.addEventListener('click', moveLeft);
 rightBtn.addEventListener('click', moveRight);
 downBtn.addEventListener('click', moveDown);
 rotateBtn.addEventListener('click', rotatePiece);
 dropBtn.addEventListener('click', dropPiece);
+
+// 터치 시작 시 이벤트 방지 (모바일 호환성 개선)
+leftBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveLeft(); });
+rightBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveRight(); });
+downBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveDown(); });
+rotateBtn.addEventListener('touchstart', (e) => { e.preventDefault(); rotatePiece(); });
+dropBtn.addEventListener('touchstart', (e) => { e.preventDefault(); dropPiece(); });
 
 // 재시작 버튼 이벤트
 restartButton.addEventListener('click', restartGame);
