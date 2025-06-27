@@ -1,0 +1,83 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+}
+
+.game-container {
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 10px;
+}
+
+.score {
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.canvas-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+canvas#tetris {
+    border: 2px solid #333;
+    background-color: #fff;
+}
+
+canvas#next {
+    border: 2px solid #333;
+    background-color: #fff;
+}
+
+.controls {
+    margin-top: 10px;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.game-over {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.game-over h2 {
+    margin: 0 0 10px;
+}
+
+.game-over p {
+    margin: 0 0 20px;
+    font-size: 18px;
+}
+
+.game-over button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.game-over button:hover {
+    background-color: #45a049;
+}
+
+.hidden {
+    display: none;
+}
