@@ -228,4 +228,4 @@ document.getElementById('reset-score').addEventListener('click', () => {
 playerReset();
 updateScore();
 update();
-});
+
