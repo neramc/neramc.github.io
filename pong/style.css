@@ -1,0 +1,23 @@
+body {
+  background: #222;
+  color: #fff;
+  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  margin-top: 30px;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+}
+
+#gameCanvas {
+  background: #000;
+  display: block;
+  margin: 20px auto;
+  border: 2px solid #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 16px #555;
+}
