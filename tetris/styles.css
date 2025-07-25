@@ -1,0 +1,94 @@
+body {
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  font-family: 'Courier New', monospace,
+               'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
+  color: #fff;
+  flex-direction: column;
+}
+
+.tetris-container {
+  display: flex;
+  gap: 20px;
+}
+
+canvas {
+  background: #111;
+  border: 4px solid #333;
+  image-rendering: pixelated;
+}
+
+.info-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.info {
+  text-align: center;
+  line-height: 2;
+  font-family: inherit;
+}
+
+#nextCanvas {
+  border: 2px solid #666;
+  background: #111;
+}
+
+/* 모바일 조작 버튼 스타일 */
+.mobile-controls {
+  position: fixed;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+  z-index: 100;
+}
+
+.left-controls,
+.right-controls {
+  display: flex;
+  gap: 10px;
+}
+
+.mobile-controls button {
+  width: 60px;
+  height: 60px;
+  font-size: 24px;
+  border-radius: 8px;
+  border: none;
+  background-color: #444;
+  color: white;
+  font-family: 'Courier New', monospace,
+               'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
+}
+
+.mobile-controls button:active {
+  background-color: #666;
+}
+
+/* 게임 오버 메시지 */
+#game-over {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 48px;
+  font-weight: bold;
+  color: red;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 30px 50px;
+  border: 4px solid red;
+  display: none;
+  z-index: 999;
+  text-align: center;
+  font-family: 'Courier New', monospace,
+               'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
+}
