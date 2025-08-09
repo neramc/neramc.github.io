@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>샘플 랜딩 페이지 • HTML+CSS+JS</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="#">MyPage</a>
+
+      <button id="nav-toggle" class="nav-toggle" aria-label="메뉴 열기">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav id="main-nav" class="main-nav" aria-label="주 네비게이션">
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><button id="theme-toggle" class="btn small">다크모드</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="home" class="hero">
+      <div class="container hero-inner">
+        <div class="hero-text">
+          <h1>깔끔하고 반응형인 페이지 템플릿</h1>
+          <p>HTML, CSS, JavaScript로 구성된 실용적인 스타터 페이지입니다. 바로 커스터마이즈 가능.</p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#contact">문의하기</a>
+            <a class="btn ghost" href="#features">특징 보기</a>
+          </div>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="card-sim">
+            <h3>예시 카드</h3>
+            <p>작동하는 인터랙션을 포함합니다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="features">
+      <div class="container">
+        <h2 class="section-title">주요 특징</h2>
+        <div class="grid">
+          <article class="feature">
+            <h3>반응형 디자인</h3>
+            <p>데스크탑, 태블릿, 모바일에 자동 최적화됩니다.</p>
+          </article>
+          <article class="feature">
+            <h3>다크 / 라이트 모드</h3>
+            <p>버튼 하나로 테마를 전환할 수 있습니다.</p>
+          </article>
+          <article class="feature">
+            <h3>간단한 폼 검증</h3>
+            <p>사용자 입력을 클라이언트에서 확인합니다.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="about">
+      <div class="container">
+        <h2 class="section-title">소개</h2>
+        <p>이 템플릿은 빠르게 프로토타입을 만들거나 작은 프로젝트를 시작하기에 적합합니다. 모든 코드가 간결하고 주석처리 되어 있어 커스터마이즈가 쉽습니다.</p>
+      </div>
+    </section>
+
+    <section id="contact" class="contact">
+      <div class="container">
+        <h2 class="section-title">연락하기</h2>
+        <form id="contact-form" class="contact-form" novalidate>
+          <div class="row">
+            <label>
+              이름
+              <input type="text" name="name" id="name" required minlength="2" />
+            </label>
+            <label>
+              이메일
+              <input type="email" name="email" id="email" required />
+            </label>
+          </div>
+          <label>
+            메시지
+            <textarea name="message" id="message" rows="5" required minlength="5"></textarea>
+          </label>
+          <div class="form-actions">
+            <button type="submit" class="btn primary">보내기</button>
+            <button type="reset" class="btn ghost">리셋</button>
+          </div>
+          <p id="form-feedback" class="form-feedback" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> MyPage. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
