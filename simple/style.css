@@ -1,0 +1,113 @@
+:root{
+  --bg:#f6f8fb;
+  --card:#ffffff;
+  --text:#0f1724;
+  --muted:#6b7280;
+  --accent:#2563eb;
+  --radius:12px;
+  --glass: rgba(255,255,255,0.6);
+  --transition:300ms cubic-bezier(.2,.9,.2,1);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background:var(--bg);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.4;
+}
+
+/* container */
+.container{
+  width: min(1100px, 92%);
+  margin: 0 auto;
+}
+
+/* Header */
+.site-header{
+  position:sticky;
+  top:0;
+  backdrop-filter: blur(6px);
+  background: linear-gradient(to bottom, rgba(255,255,255,0.8), rgba(255,255,255,0.6));
+  border-bottom:1px solid rgba(15,23,36,0.06);
+  z-index:50;
+}
+.header-inner{
+  display:flex;
+  gap:1rem;
+  align-items:center;
+  justify-content:space-between;
+  padding:0.75rem 0;
+}
+.logo{font-weight:700;text-decoration:none;color:var(--text);font-size:1.05rem}
+
+/* Nav */
+.main-nav ul{display:flex;gap:.5rem;align-items:center;margin:0;padding:0;list-style:none}
+.main-nav a{color:var(--text);text-decoration:none;padding:.5rem .75rem;border-radius:8px;transition:var(--transition)}
+.main-nav a:hover{background:rgba(37,99,235,0.08);color:var(--accent)}
+.btn{border:1px solid transparent;padding:.5rem .75rem;border-radius:8px;cursor:pointer;background:transparent}
+.btn.small{padding:.35rem .55rem;font-size:.9rem}
+.btn.primary{background:var(--accent);color:white;border-color:transparent}
+.btn.ghost{border:1px solid rgba(15,23,36,0.06);}
+
+/* Nav toggle (mobile) */
+.nav-toggle{display:none;background:none;border:0;padding:.25rem;cursor:pointer}
+.nav-toggle span{display:block;width:22px;height:2px;background:var(--text);margin:4px 0;border-radius:2px;transition:transform 200ms ease}
+
+/* Hero */
+.hero{padding:3.5rem 0}
+.hero-inner{display:grid;grid-template-columns:1fr 360px;gap:2rem;align-items:center}
+.hero-text h1{font-size:2rem;margin:0 0 .5rem}
+.hero-text p{color:var(--muted);margin:0 0 1rem}
+.hero-actions .btn{margin-right:.5rem}
+.hero-visual .card-sim{background:linear-gradient(135deg,#fff 0%, #f7fbff 100%);padding:1.2rem;border-radius:12px;border:1px solid rgba(15,23,36,0.04);box-shadow:0 8px 24px rgba(16,24,40,0.06)}
+
+/* Features */
+.section-title{font-size:1.25rem;margin-bottom:1rem}
+.features{padding:2rem 0}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.feature{background:var(--card);padding:1rem;border-radius:10px;border:1px solid rgba(15,23,36,0.04);box-shadow:0 4px 18px rgba(16,24,40,0.04)}
+.feature h3{margin-top:0}
+
+/* About / Contact */
+.about{padding:1.5rem 0}
+.contact{padding:2rem 0}
+.contact-form{background:var(--card);padding:1rem;border-radius:10px;border:1px solid rgba(15,23,36,0.04)}
+.contact-form label{display:block;margin-bottom:.75rem;font-size:.95rem}
+.contact-form input,
+.contact-form textarea{width:100%;padding:.6rem .75rem;border-radius:8px;border:1px solid rgba(15,23,36,0.08);margin-top:.35rem}
+.row{display:flex;gap:1rem}
+.form-actions{display:flex;gap:.5rem;align-items:center;margin-top:.5rem}
+.form-feedback{margin-top:.5rem;color:var(--muted)}
+
+.site-footer{padding:1rem 0;border-top:1px solid rgba(15,23,36,0.04);text-align:center;background:transparent;color:var(--muted)}
+
+/* Responsive */
+@media (max-width:900px){
+  .hero-inner{grid-template-columns:1fr}
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .nav-toggle{display:block}
+  .main-nav{position:fixed;top:64px;right:12px;background:var(--card);padding:1rem;border-radius:10px;box-shadow:0 8px 30px rgba(16,24,40,0.12);display:none}
+  .main-nav.open{display:block}
+  .main-nav ul{flex-direction:column;align-items:flex-start}
+  .row{flex-direction:column}
+}
+
+@media (max-width:560px){
+  .grid{grid-template-columns:1fr}
+}
+
+/* Dark mode */
+:root[data-theme="dark"]{
+  --bg:#071029;
+  --card:#071827;
+  --text:#e6eef8;
+  --muted:#9fb0c9;
+  --accent:#60a5fa;
+  --glass: rgba(255,255,255,0.03);
+  border-color: rgba(255,255,255,0.04);
+}
