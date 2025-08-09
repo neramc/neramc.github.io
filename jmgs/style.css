@@ -1,0 +1,85 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+:root[data-theme="light"] {
+  --bg: #fff;
+  --text: #000;
+}
+
+:root[data-theme="dark"] {
+  --bg: #111;
+  --text: #fff;
+}
+
+header {
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid #ccc;
+}
+
+.logo img {
+  height: 40px;
+}
+
+/* 메뉴 버튼 */
+.menu-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.menu-toggle span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background: var(--text);
+  margin: 4px 0;
+  transition: 0.3s;
+}
+
+/* 사이드 메뉴 */
+.side-menu {
+  position: fixed;
+  top: 0;
+  right: -250px;
+  width: 250px;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  padding: 1rem;
+  transition: right 0.3s ease;
+  z-index: 100;
+}
+.side-menu.open {
+  right: 0;
+}
+.side-menu ul {
+  list-style: none;
+  padding: 0;
+}
+.side-menu li {
+  margin: 1rem 0;
+}
+.menu-close {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  float: right;
+  cursor: pointer;
+}
+
+/* About 이미지 */
+.about-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+}
+.about-gallery img {
+  width: 100%;
+  border-radius: 15px;
+}
