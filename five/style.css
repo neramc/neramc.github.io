@@ -1,0 +1,62 @@
+:root{
+  --board-bg:#d8b36a;
+  --line:#6b4c1f;
+  --panel:#ffffff;
+  --text:#222;
+  --accent:#0a7cff;
+  --shadow:rgba(0,0,0,.15);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:ui-sans-serif,system-ui,"Apple SD Gothic Neo",Segoe UI,Roboto,sans-serif;
+  color:var(--text);
+  background: #f6f6f6;
+  display:flex; min-height:100svh; align-items:center; justify-content:center; padding:12px;
+}
+.app{
+  width:min(92vw, 860px);
+}
+header{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:12px; margin-bottom:10px;
+}
+h1{
+  font-size:18px; margin:0; letter-spacing:.2px;
+}
+.controls{
+  display:flex; gap:8px; flex-wrap:wrap; align-items:center;
+}
+button{
+  appearance:none; border:1px solid #ddd; background:#fff; color:#222; padding:8px 12px;
+  border-radius:10px; cursor:pointer; font-weight:600; box-shadow:0 1px 2px var(--shadow);
+  transition:.15s transform,.15s box-shadow,.15s background,.15s border-color;
+}
+button:hover{ transform:translateY(-1px); box-shadow:0 4px 10px var(--shadow) }
+button:active{ transform:translateY(0); box-shadow:0 2px 6px var(--shadow) }
+.accent{ border-color:#bcd9ff; background:#eaf3ff; color:#0546a0 }
+.status{
+  background:var(--panel); border:1px solid #e7e7e7; border-radius:12px; padding:8px 12px;
+  box-shadow:0 1px 2px var(--shadow); display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+}
+.stone-ind{
+  width:18px; height:18px; border-radius:50%; display:inline-block; vertical-align:middle; border:1px solid rgba(0,0,0,.25);
+}
+.stone-black{ background: radial-gradient(circle at 30% 30%, #444 0%, #000 70%);}
+.stone-white{ background: radial-gradient(circle at 30% 30%, #fff 0%, #ddd 70%); border-color:rgba(0,0,0,.15)}
+.wrapper{
+  background:var(--board-bg);
+  border-radius:16px; overflow:hidden; border:1px solid #c49b54; box-shadow: 0 6px 24px var(--shadow);
+}
+.board{
+  width:100%; aspect-ratio:1/1; display:block; touch-action:none;
+  background: repeating-linear-gradient(45deg, rgba(255,255,255,.02) 0 6px, rgba(0,0,0,.02) 6px 12px), var(--board-bg);
+}
+.footer{
+  margin-top:10px; font-size:12px; color:#666; display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap;
+}
+.hint{ color:#444 }
+.winner{
+  color:#0a7c2f; font-weight:700;
+}
+.attribution{ opacity:.7 }
