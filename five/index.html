@@ -8,6 +8,8 @@
 </head>
 <body>
   <h1>오목 게임</h1>
+  <canvas id="board" width="760" height="760"></canvas>
+  
   <div class="controls">
     <button onclick="setDifficulty('easy')">Easy</button>
     <button onclick="setDifficulty('normal')">Normal</button>
@@ -16,15 +18,9 @@
     <button onclick="resetGame()">Reset</button>
     <button onclick="undoMove()">Undo</button>
   </div>
-    <div class="status" id="status">
-      <div>진행: <span id="turnStone" class="stone-ind stone-black" aria-hidden="true"></span>
-        <strong id="turnText">흑 차례</strong>
-      </div>
-      <div>수: <strong id="moveCount">0</strong></div>
-      <div class="hint">팁: 돌은 선 교차점에 둡니다. 마우스를 올리면 미리보기 💡</div>
-    </div>
-  <canvas id="board" width="760" height="760"></canvas>
+  
   <p id="status">난이도: AUTO</p>
+  
   <script src="script.js"></script>
 </body>
 </html>
