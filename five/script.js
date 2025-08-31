@@ -1,239 +1,295 @@
-const canvas = document.getElementById("board");
-const ctx = canvas.getContext("2d");
-const SIZE = 19;
-const CELL = canvas.width / SIZE;
+;(() => {
+  const SIZE = 19;
+  const PADDING_RATIO = 0.06;
+  const LINE_WIDTH = 1.2;
+  const STAR_RADIUS_RATIO = 0.012;
+  const STONE_RADIUS_RATIO = 0.018;
+  const HOVER_ALPHA = 0.35;
 
-let board, currentPlayer, winner, moveHistory;
-
-// 난이도 관리
-let aiDifficulty = "auto";
-let aiDepthLevel = 2;
-
-function initGame() {
-  board = Array.from({ length: SIZE }, () => Array(SIZE).fill(0));
-  currentPlayer = 1; // 흑 시작
-  winner = null;
-  moveHistory = [];
-  drawBoard();
-  document.getElementById("status").innerText = "난이도: " + aiDifficulty.toUpperCase();
-}
-
-function resetGame() {
-  initGame();
-}
-
-function setDifficulty(level) {
-  aiDifficulty = level;
-  if (level === "easy") aiDepthLevel = 2;
-  else if (level === "normal") aiDepthLevel = 3;
-  else if (level === "hard") aiDepthLevel = 4;
-  document.getElementById("status").innerText = "난이도: " + level.toUpperCase();
-  resetGame();
-}
-
-// 바둑판 그리기
-function drawBoard() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.strokeStyle = "#333";
-  for (let i = 0; i < SIZE; i++) {
-    ctx.beginPath();
-    ctx.moveTo(CELL/2, CELL/2 + i * CELL);
-    ctx.lineTo(canvas.width - CELL/2, CELL/2 + i * CELL);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(CELL/2 + i * CELL, CELL/2);
-    ctx.lineTo(CELL/2 + i * CELL, canvas.height - CELL/2);
-    ctx.stroke();
-  }
-  for (let i=0;i<SIZE;i++){
-    for (let j=0;j<SIZE;j++){
-      if (board[i][j] !== 0) drawStone(i,j,board[i][j]);
-    }
-  }
-}
-
-function drawStone(i, j, player) {
-  ctx.beginPath();
-  ctx.arc(CELL/2 + j*CELL, CELL/2 + i*CELL, CELL/2 - 2, 0, Math.PI*2);
-  ctx.fillStyle = player === 1 ? "black" : "white";
-  ctx.fill();
-  ctx.strokeStyle = "#000";
-  ctx.stroke();
-}
-
-// 착수
-function place(i,j) {
-  if (winner || board[i][j] !== 0) return;
-  board[i][j] = currentPlayer;
-  moveHistory.push({i, j, player: currentPlayer});
-  drawBoard();
-  if (checkWin(i,j,currentPlayer)) {
-    winner = currentPlayer;
-    document.getElementById("status").innerText = (winner===1?"흑":"백")+" 승리!";
-    return;
-  }
-  currentPlayer = 3 - currentPlayer;
-  if (currentPlayer === 2) {
-    setTimeout(aiMove, 200);
-  }
-}
-
-// Undo (한 턴 되돌리기)
-function undoMove() {
-  if (moveHistory.length < 2 || winner) return;
-  const lastAI = moveHistory.pop(); // AI 수 제거
-  board[lastAI.i][lastAI.j] = 0;
-  const lastHuman = moveHistory.pop(); // Human 수 제거
-  board[lastHuman.i][lastHuman.j] = 0;
-  currentPlayer = 1; // 다시 흑 차례
-  winner = null;
-  drawBoard();
-  document.getElementById("status").innerText = "되돌리기 완료! 난이도: " + aiDifficulty.toUpperCase();
-}
-
-// 승리 판정
-function checkWin(i,j,player) {
-  const dirs = [[1,0],[0,1],[1,1],[1,-1]];
-  for (const [dx,dy] of dirs) {
-    let count = 1;
-    let x=i+dx,y=j+dy;
-    while (x>=0&&y>=0&&x<SIZE&&y<SIZE&&board[x][y]===player) {count++; x+=dx; y+=dy;}
-    x=i-dx; y=j-dy;
-    while (x>=0&&y>=0&&x<SIZE&&y<SIZE&&board[x][y]===player) {count++; x-=dx; y-=dy;}
-    if (count>=5) return true;
-  }
-  return false;
-}
-
-// 평가 함수
-function evaluateBoard(player) {
-  let score = 0;
-  const opponent = player === 1 ? 2 : 1;
-  for (let i=0;i<SIZE;i++){
-    for (let j=0;j<SIZE;j++){
-      if (board[i][j] === player) score += getShapeScore(i,j,player);
-      else if (board[i][j] === opponent) score -= getShapeScore(i,j,opponent);
-    }
-  }
-  return score;
-}
-
-function getShapeScore(i,j,player) {
-  const dirs = [[1,0],[0,1],[1,1],[1,-1]];
-  let total = 0;
-  for (const [dx,dy] of dirs) {
-    let count = 1;
-    let openEnds = 0;
-
-    let x=i+dx, y=j+dy;
-    while (x>=0&&y>=0&&x<SIZE&&y<SIZE&&board[x][y]===player) {count++; x+=dx; y+=dy;}
-    if (x>=0&&y>=0&&x<SIZE&&y<SIZE&&board[x][y]===0) openEnds++;
-
-    x=i-dx; y=j-dy;
-    while (x>=0&&y>=0&&x<SIZE&&y<SIZE&&board[x][y]===player) {count++; x-=dx; y-=dy;}
-    if (x>=0&&y>=0&&x<SIZE&&y<SIZE&&board[x][y]===0) openEnds++;
-
-    if (count>=5) total += 100000;
-    else if (count===4 && openEnds===2) total += 10000;
-    else if (count===4 && openEnds===1) total += 5000;
-    else if (count===3 && openEnds===2) total += 1000;
-    else if (count===3 && openEnds===1) total += 300;
-    else if (count===2 && openEnds===2) total += 100;
-    else if (count===2 && openEnds===1) total += 30;
-  }
-  return total;
-}
-
-// MiniMax + Alpha-Beta
-function minimax(depth, alpha, beta, maximizingPlayer) {
-  if (depth === 0 || winner) return evaluateBoard(2);
-  const moves = generateMoves();
-  if (maximizingPlayer) {
-    let maxEval = -Infinity;
-    for (const m of moves) {
-      board[m.i][m.j] = 2;
-      const eval = minimax(depth-1, alpha, beta, false);
-      board[m.i][m.j] = 0;
-      maxEval = Math.max(maxEval, eval);
-      alpha = Math.max(alpha, eval);
-      if (beta <= alpha) break;
-    }
-    return maxEval;
-  } else {
-    let minEval = Infinity;
-    for (const m of moves) {
-      board[m.i][m.j] = 1;
-      const eval = minimax(depth-1, alpha, beta, true);
-      board[m.i][m.j] = 0;
-      minEval = Math.min(minEval, eval);
-      beta = Math.min(beta, eval);
-      if (beta <= alpha) break;
-    }
-    return minEval;
-  }
-}
-
-// 후보 수 생성
-function generateMoves() {
+  let board = Array.from({length: SIZE}, () => Array(SIZE).fill(0));
   let moves = [];
-  for (let i=0;i<SIZE;i++){
-    for (let j=0;j<SIZE;j++){
-      if (board[i][j] !== 0) continue;
-      let near = false;
-      for (let dx=-1;dx<=1;dx++){
-        for (let dy=-1;dy<=1;dy++){
-          if (i+dx<0||j+dy<0||i+dx>=SIZE||j+dy>=SIZE) continue;
-          if (board[i+dx][j+dy]!==0) near = true;
-        }
+  let current = 1;
+  let winner = 0;
+  let aiEnabled = false;
+
+  let canvas, ctx;
+  let W=0, H=0, pad=0, gap=0;
+  let hover = { i:-1, j:-1, visible:false };
+
+  const $ = sel => document.querySelector(sel);
+  const turnStoneEl = $('#turnStone');
+  const turnTextEl  = $('#turnText');
+  const moveCountEl = $('#moveCount');
+  const resultTextEl = $('#resultText');
+  const toggleAIBtn = $('#toggleAIBtn');
+
+  function resize() {
+    canvas.width = canvas.clientWidth * devicePixelRatio;
+    canvas.height = canvas.clientHeight * devicePixelRatio;
+    ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+
+    W = canvas.clientWidth;
+    H = canvas.clientHeight;
+    const minSide = Math.min(W, H);
+    pad = Math.max(12, Math.floor(minSide * PADDING_RATIO));
+    gap = (minSide - pad*2) / (SIZE-1);
+
+    drawAll();
+  }
+
+  function clear() {
+    ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--board-bg').trim();
+    ctx.fillRect(0,0,canvas.clientWidth, canvas.clientHeight);
+  }
+
+  function drawGrid(){
+    ctx.save();
+    ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--line').trim();
+    ctx.lineWidth = LINE_WIDTH;
+    for(let i=0;i<SIZE;i++){
+      const x = pad + i*gap;
+      const y = pad + i*gap;
+      ctx.beginPath(); ctx.moveTo(x, pad); ctx.lineTo(x, pad + gap*(SIZE-1)); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(pad, y); ctx.lineTo(pad + gap*(SIZE-1), y); ctx.stroke();
+    }
+    ctx.strokeRect(pad, pad, gap*(SIZE-1), gap*(SIZE-1));
+    const starsIdx = [3,9,15];
+    const r = Math.max(2, Math.floor(gap * STAR_RADIUS_RATIO * 100) / 100 * 6);
+    ctx.fillStyle = 'rgba(0,0,0,.65)';
+    for(const i of starsIdx){
+      for(const j of starsIdx){
+        const {x,y} = ij2xy(i,j);
+        ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
       }
-      if (near) moves.push({i,j});
     }
+    ctx.restore();
   }
-  return moves;
-}
 
-// AI 착수
-function aiMove() {
-  if (winner) return;
+  function drawStone(i,j,player, emphasize=false){
+    const {x,y} = ij2xy(i,j);
+    const r = gap*0.43;
+    ctx.save();
+    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI*2);
+    ctx.shadowColor = 'rgba(0,0,0,.25)';
+    ctx.shadowBlur = 6; ctx.shadowOffsetY = 2;
+    ctx.fillStyle = ctx.createRadialGradient(x-r*0.35, y-r*0.35, r*0.1, x, y, r);
+    if(player===1){
+      ctx.fillStyle.addColorStop(0, '#555');
+      ctx.fillStyle.addColorStop(0.7, '#0c0c0c');
+      ctx.fillStyle.addColorStop(1, '#000');
+    }else{
+      ctx.fillStyle.addColorStop(0, '#fff');
+      ctx.fillStyle.addColorStop(0.7, '#e5e5e5');
+      ctx.fillStyle.addColorStop(1, '#d6d6d6');
+    }
+    ctx.fill();
+    if(emphasize){
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = player===1 ? 'rgba(255,255,255,.85)' : 'rgba(0,0,0,.55)';
+      ctx.beginPath(); ctx.arc(x,y,r*0.55,0,Math.PI*2); ctx.stroke();
+    }
+    ctx.restore();
+  }
 
-  let depth = aiDepthLevel;
-  if (aiDifficulty === "auto") {
-    let stoneCount = 0;
-    for (let i=0;i<SIZE;i++){
-      for (let j=0;j<SIZE;j++){
-        if (board[i][j]!==0) stoneCount++;
+  function drawHover(){
+    if(!hover.visible || winner) return;
+    const {i,j} = hover;
+    if(i<0 || j<0 || board[i][j]!==0) return;
+    const {x,y} = ij2xy(i,j);
+    const r = gap*0.42;
+    ctx.save();
+    ctx.globalAlpha = HOVER_ALPHA;
+    ctx.fillStyle = current===1 ? '#000' : '#fff';
+    ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+  }
+
+  function drawAll(){
+    clear();
+    drawGrid();
+    for(let i=0;i<SIZE;i++){
+      for(let j=0;j<SIZE;j++){
+        const p = board[i][j];
+        if(p!==0) drawStone(i,j,p);
       }
     }
-    if (stoneCount < 20) depth = 2;
-    else if (stoneCount < 50) depth = 3;
-    else depth = 4;
-  }
-
-  let bestScore = -Infinity;
-  let bestMove = null;
-  const moves = generateMoves();
-  for (const m of moves) {
-    board[m.i][m.j] = 2;
-    let score = minimax(depth, -Infinity, Infinity, false);
-    board[m.i][m.j] = 0;
-    if (score > bestScore) {
-      bestScore = score;
-      bestMove = m;
+    const last = moves[moves.length-1];
+    if(last) drawStone(last.x, last.y, last.player, true);
+    drawHover();
+    if(winner){
+      const last = moves[moves.length-1];
+      if(last){
+        const info = checkWin(last.x,last.y,last.player);
+        if(info.win) drawWinLine(info.line);
+      }
     }
   }
-  if (bestMove) place(bestMove.i, bestMove.j);
-}
 
-// 사용자 클릭 이벤트
-canvas.addEventListener("click", e => {
-  if (winner || currentPlayer!==1) return;
-  const rect = canvas.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
-  const i = Math.floor(y/CELL);
-  const j = Math.floor(x/CELL);
-  place(i,j);
-});
+  function ij2xy(i,j){ return { x: pad + i*gap, y: pad + j*gap }; }
+  function xy2ij(x,y){
+    const i = Math.round((x - pad) / gap);
+    const j = Math.round((y - pad) / gap);
+    if(i<0 || i>=SIZE || j<0 || j>=SIZE) return {i:-1, j:-1};
+    const {x:ix, y:iy} = ij2xy(i,j);
+    const dist = Math.hypot(ix - x, iy - y);
+    const threshold = gap * 0.45;
+    if(dist <= threshold) return {i,j};
+    return {i:-1, j:-1};
+  }
 
-// 초기 실행
-initGame();
+  function place(i,j){
+    if(winner) return;
+    if(i<0 || j<0 || i>=SIZE || j>=SIZE) return;
+    if(board[i][j]!==0) return;
+
+    board[i][j] = current;
+    moves.push({x:i, y:j, player:current});
+    moveCountEl.textContent = String(moves.length);
+
+    const winInfo = checkWin(i,j,current);
+    if(winInfo.win){
+      winner = current;
+      updateStatus(true);
+    }else{
+      current = 3 - current;
+      updateStatus(false);
+      if(aiEnabled && current===2 && !winner){
+        setTimeout(aiMove, 400); // 약간의 딜레이로 두는 느낌
+      }
+    }
+    drawAll();
+  }
+
+  function checkWin(i,j,player){
+    const dirs = [[1,0],[0,1],[1,1],[1,-1]];
+    for(const [dx,dy] of dirs){
+      const c1 = countDir(i,j, dx,dy, player);
+      const c2 = countDir(i,j,-dx,-dy, player) - 1;
+      const total = c1 + c2;
+      if(total >= 5){
+        return { win:true, line:{sx:i,sy:j,ex:i,ey:j} };
+      }
+    }
+    return { win:false };
+  }
+
+  function countDir(i,j,dx,dy,player){
+    let cnt = 0, x=i, y=j;
+    while(x>=0 && x<SIZE && y>=0 && y<SIZE && board[x][y]===player){
+      cnt++; x+=dx; y+=dy;
+    }
+    return cnt;
+  }
+
+  function drawWinLine(line){
+    // 간단히 마지막 수 중심으로 하이라이트
+    const {sx,sy} = line;
+    const a = ij2xy(sx,sy);
+    ctx.save();
+    ctx.lineWidth = 6;
+    ctx.strokeStyle = 'rgba(10,124,255,.9)';
+    ctx.beginPath(); ctx.arc(a.x,a.y,gap*0.7,0,Math.PI*2); ctx.stroke();
+    ctx.restore();
+  }
+
+  function updateStatus(isWin=false){
+    if(isWin){
+      const who = winner===1 ? '흑' : '백';
+      resultTextEl.innerHTML = `<span class="winner">🎉 ${who} 승!</span> (총 수: ${moves.length})`;
+      turnTextEl.textContent = `${who} 승`;
+    }else{
+      turnStoneEl.className = 'stone-ind ' + (current===1 ? 'stone-black' : 'stone-white');
+      turnTextEl.textContent = current===1 ? '흑 차례' : '백 차례';
+      resultTextEl.textContent = '';
+    }
+  }
+
+  function undo(){
+    if(!moves.length || winner) return;
+    const last = moves.pop();
+    board[last.x][last.y] = 0;
+    current = last.player;
+    moveCountEl.textContent = String(moves.length);
+    winner = 0;
+    updateStatus(false);
+    drawAll();
+  }
+
+  function reset(){
+    board = Array.from({length: SIZE}, () => Array(SIZE).fill(0));
+    moves = [];
+    current = 1;
+    winner = 0;
+    hover.visible = false;
+    moveCountEl.textContent = '0';
+    updateStatus(false);
+    drawAll();
+  }
+
+  // ===== AI 로직 (심플 버전: 중앙 가까운 곳 선호) =====
+  function aiMove(){
+    if(winner) return;
+    let emptyCells = [];
+    for(let i=0;i<SIZE;i++){
+      for(let j=0;j<SIZE;j++){
+        if(board[i][j]===0) emptyCells.push({i,j});
+      }
+    }
+    if(!emptyCells.length) return;
+    // 중앙 가까운 점 찾기
+    const center = SIZE/2;
+    emptyCells.sort((a,b)=> {
+      const da = Math.hypot(a.i-center,a.j-center);
+      const db = Math.hypot(b.i-center,b.j-center);
+      return da-db;
+    });
+    const choice = emptyCells[Math.floor(Math.random()*Math.min(4, emptyCells.length))];
+    place(choice.i, choice.j);
+  }
+
+  // ===== 이벤트 =====
+  function getEventXY(ev){
+    const rect = canvas.getBoundingClientRect();
+    const x = (ev.touches ? ev.touches[0].clientX : ev.clientX) - rect.left;
+    const y = (ev.touches ? ev.touches[0].clientY : ev.clientY) - rect.top;
+    return {x,y};
+  }
+  function onPointerMove(ev){
+    const {x,y} = getEventXY(ev);
+    const {i,j} = xy2ij(x,y);
+    hover.i = i; hover.j = j; hover.visible = true;
+    drawAll();
+  }
+  function onPointerLeave(){ hover.visible = false; drawAll(); }
+  function onPointerDown(ev){
+    if(winner) return;
+    if(aiEnabled && current===2) return; // AI 차례면 무시
+    const {x,y} = getEventXY(ev);
+    const {i,j} = xy2ij(x,y);
+    if(i!==-1 && j!==-1) place(i,j);
+  }
+
+  function init(){
+    canvas = document.getElementById('board');
+    ctx = canvas.getContext('2d');
+    window.addEventListener('resize', resize, {passive:true});
+    resize();
+    canvas.addEventListener('mousemove', onPointerMove);
+    canvas.addEventListener('mouseleave', onPointerLeave);
+    canvas.addEventListener('mousedown', onPointerDown);
+    canvas.addEventListener('touchstart', (e)=>{ onPointerDown(e); }, {passive:true});
+    canvas.addEventListener('touchmove', (e)=>{ onPointerMove(e); }, {passive:true});
+    canvas.addEventListener('touchend', onPointerLeave, {passive:true});
+    document.getElementById('undoBtn').addEventListener('click', undo);
+    document.getElementById('resetBtn').addEventListener('click', reset);
+    toggleAIBtn.addEventListener('click', ()=>{
+      aiEnabled = !aiEnabled;
+      toggleAIBtn.textContent = aiEnabled ? "🤖 AI: ON" : "🤖 AI: OFF";
+      reset();
+    });
+    updateStatus(false);
+    drawAll();
+  }
+
+  window.addEventListener('DOMContentLoaded', init);
+})();
