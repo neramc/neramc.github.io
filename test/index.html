@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- 기본 SEO -->
+  <title>내 멋진 웹사이트</title>
+  <meta name="description" content="가볍고 빠른 반응형 스타터 웹사이트 템플릿" />
+
+  <!-- OG/Twitter 카드 (공유 미리보기) -->
+  <meta property="og:title" content="내 멋진 웹사이트">
+  <meta property="og:description" content="가볍고 빠른 반응형 스타터 웹사이트 템플릿">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://example.com">
+  <meta property="og:image" content="https://picsum.photos/1200/630?blur=2">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="data:;base64,iVBORw0KGgo="><!-- 빈 파비콘(콘솔 경고 방지) -->
+</head>
+<body>
+  <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+
+  <header class="site-header">
+    <nav class="nav container" aria-label="주요">
+      <a class="logo" href="#hero" aria-label="홈으로">MySite</a>
+
+      <button id="menuBtn" class="menu-btn" aria-expanded="false" aria-controls="navList">
+        <span class="menu-btn__bar" aria-hidden="true"></span>
+        <span class="menu-btn__bar" aria-hidden="true"></span>
+        <span class="menu-btn__bar" aria-hidden="true"></span>
+        <span class="sr-only">메뉴 열기</span>
+      </button>
+
+      <ul id="navList" class="nav__list">
+        <li><a href="#features">기능</a></li>
+        <li><a href="#pricing">가격</a></li>
+        <li><a href="#contact">문의</a></li>
+        <li>
+          <button id="themeToggle" class="theme-toggle" aria-pressed="false" title="테마 전환">
+            🌓
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <!-- 히어로 섹션 -->
+    <section id="hero" class="hero">
+      <div class="container hero__grid">
+        <div class="hero__text">
+          <h1>빠르고 심플한<br>반응형 웹 템플릿</h1>
+          <p class="lead">
+            바로 배포 가능한 최소 구성. 접근성, 다크모드, 모바일 메뉴, 폼 유효성 검사 기본 탑재.
+          </p>
+          <div class="hero__actions">
+            <a class="btn btn--primary" href="#features">시작하기</a>
+            <a class="btn" href="#contact">문의하기</a>
+          </div>
+        </div>
+        <div class="hero__media" aria-hidden="true">
+          <img src="https://picsum.photos/600/400" alt="" loading="lazy" decoding="async">
+        </div>
+      </div>
+    </section>
+
+    <!-- 기능 섹션 -->
+    <section id="features" class="section">
+      <div class="container">
+        <h2>핵심 기능</h2>
+        <div class="cards">
+          <article class="card">
+            <h3>반응형 레이아웃</h3>
+            <p>모바일·태블릿·데스크톱에서 자연스럽게 보입니다.</p>
+          </article>
+          <article class="card">
+            <h3>접근성 고려</h3>
+            <p>키보드 내비게이션, 대비, 스킵 링크를 제공합니다.</p>
+          </article>
+          <article class="card">
+            <h3>다크 모드</h3>
+            <p>시스템 테마를 따르며, 수동 전환/기억 기능이 있습니다.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 가격 섹션 -->
+    <section id="pricing" class="section alt">
+      <div class="container">
+        <h2>가격</h2>
+        <div class="pricing">
+          <div class="price-card">
+            <h3>무료</h3>
+            <p class="price">₩0</p>
+            <ul>
+              <li>기본 템플릿</li>
+              <li>MIT 라이선스</li>
+            </ul>
+            <button class="btn btn--primary">선택</button>
+          </div>
+          <div class="price-card emphasis" aria-label="추천">
+            <h3>프로</h3>
+            <p class="price">₩9,900</p>
+            <ul>
+              <li>추가 컴포넌트</li>
+              <li>이메일 지원</li>
+            </ul>
+            <button class="btn btn--primary">선택</button>
+          </div>
+          <div class="price-card">
+            <h3>팀</h3>
+            <p class="price">₩39,000</p>
+            <ul>
+              <li>최대 10명</li>
+              <li>우선 지원</li>
+            </ul>
+            <button class="btn btn--primary">선택</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 문의 섹션 -->
+    <section id="contact" class="section">
+      <div class="container">
+        <h2>문의하기</h2>
+        <form id="contactForm" class="form" novalidate>
+          <label>
+            이름
+            <input name="name" type="text" placeholder="홍길동" required minlength="2" />
+          </label>
+          <label>
+            이메일
+            <input name="email" type="email" placeholder="you@example.com" required />
+          </label>
+          <label>
+            메시지
+            <textarea name="message" rows="5" placeholder="안녕하세요!" required minlength="5"></textarea>
+          </label>
+          <button class="btn btn--primary" type="submit">보내기</button>
+          <p id="formMsg" role="status" aria-live="polite" class="form__msg" hidden></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="year"></span> MySite. 모든 권리 보유.</p>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
