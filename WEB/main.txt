@@ -1,0 +1,18 @@
+jm-studio-site/
+├─ index.html
+├─ login.html
+├─ dashboard.html
+├─ styles.css
+├─ script.js
+├─ assets/
+│ ├─ logo-dark.png # 흰 글씨 로고(다크모드용)
+│ └─ logo-light.png # 검정 글씨 로고(라이트모드용)
+├─ netlify.toml
+├─ package.json
+└─ netlify/
+     └─ functions/
+          ├─ login.js
+          ├─ verify.js
+          ├─ get-upload-url.js
+          ├─ list-files.js
+          └─ get-download-url.js
