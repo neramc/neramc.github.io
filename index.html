@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mdmv.kro.kr | netlify link</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="tooplate-stellaris-style.css" rel="stylesheet">
+    
+<!--
+
+Tooplate 2140 Stellaris Research
+
+https://www.tooplate.com/view/2140-stellaris-research
+
+Free HTML CSS Template
+
+-->
+</head>
+<body>
+    <canvas id="starfield"></canvas>
+
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#home" class="logo-container">
+                <svg class="logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Cosmic logo with planet and orbit -->
+                    <circle cx="50" cy="50" r="35" fill="none" stroke="#8b5cf6" stroke-width="1.5" opacity="0.6"/>
+                    <circle cx="50" cy="50" r="20" fill="none" stroke="#f59e0b" stroke-width="2"/>
+                    <circle cx="50" cy="50" r="12" fill="#7c3aed"/>
+                    
+                    <!-- Orbiting elements -->
+                    <circle cx="85" cy="50" r="4" fill="#f59e0b">
+                        <animateTransform attributeName="transform" attributeType="XML" type="rotate" from="0 50 50" to="360 50 50" dur="8s" repeatCount="indefinite"/>
+                    </circle>
+                    <circle cx="15" cy="50" r="3" fill="#ec4899">
+                        <animateTransform attributeName="transform" attributeType="XML" type="rotate" from="0 50 50" to="-360 50 50" dur="12s" repeatCount="indefinite"/>
+                    </circle>
+                    
+                    <!-- Central glow -->
+                    <circle cx="50" cy="50" r="8" fill="#f59e0b" opacity="0.3"/>
+                </svg>
+                <span class="logo-text">STELLARIS</span>
+            </a>
+            
+            <div class="mobile-menu-toggle" id="mobile-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <div class="nav-menu" id="nav-menu">
+                <ul>
+                    <li><a href="#home">HOME</a></li>
+                    <li><a href="#about">ABOUT</a></li>
+                    <li><a href="#missions">MISSIONS</a></li>
+                    <li><a href="#equipment">EQUIPMENT</a></li>
+                    <li><a href="#contact">CONTACT</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="hero">
+    <!-- Star layers -->
+    <div class="stars-layer"></div>
+    
+    <!-- Floating space orbs -->
+    <div class="space-orb"></div>
+    <div class="space-orb"></div>
+    <div class="space-orb"></div>
+    <div class="space-orb"></div>
+    
+    <!-- Shooting stars -->
+    <div class="shooting-star" style="--delay: 0s; --top: 10%; --left: 10%;"></div>
+    <div class="shooting-star" style="--delay: 1.5s; --top: 30%; --left: 60%;"></div>
+    <div class="shooting-star" style="--delay: 3s; --top: 20%; --left: 80%;"></div>
+    <div class="shooting-star" style="--delay: 4.5s; --top: 60%; --left: 30%;"></div>
+    <div class="shooting-star" style="--delay: 6s; --top: 80%; --left: 70%;"></div>
+    
+        <div class="hero-content">
+            <h1 class="cosmic-title">MDMV.KRO.KR PAGE</h1>
+            <p class="subtitle">Exoplanet Researcher & Deep Space Pioneer</p>
+        </div>
+        <a href="#about" class="scroll-btn">
+            <div class="scroll-btn-inner">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M7 13l5 5 5-5M7 6l5 5 5-5"/>
+                </svg>
+            </div>
+        </a>
+    </section>
+
+    <section id="about" class="fade-in">
+        <h2 class="section-title">EXPLORER PROFILE</h2>
+        <div class="about-section">
+            <div class="about-hero">
+                <h3>Pioneering the Frontiers of Space</h3>
+                <p class="about-description">
+                    Leading humanity's quest to understand our place in the cosmos through cutting-edge research in exoplanet discovery, 
+                    astrobiology, and interstellar exploration. With over 15 years of experience in space science, I've dedicated my career 
+                    to unlocking the mysteries of distant worlds and searching for signs of life beyond Earth.
+                </p>
+            </div>
+            
+            <div class="about-grid">
+                <div class="about-card">
+                    <span class="about-card-icon">ð¬</span>
+                    <h4>Research Excellence</h4>
+                    <p>Published over 120 peer-reviewed papers on exoplanet atmospheres, habitability zones, and biosignature detection methods.</p>
+                </div>
+                
+                <div class="about-card">
+                    <span class="about-card-icon">ð°ï¸</span>
+                    <h4>Mission Leadership</h4>
+                    <p>Principal investigator on multiple NASA and ESA missions, including the TRAPPIST system exploration and Mars sample analysis.</p>
+                </div>
+                
+                <div class="about-card">
+                    <span class="about-card-icon">ð</span>
+                    <h4>Discovery Pioneer</h4>
+                    <p>Co-discoverer of 47 confirmed exoplanets, including three potentially habitable super-Earths in the Goldilocks zone.</p>
+                </div>
+            </div>
+            
+            <div class="achievements-grid">
+                <div class="achievement-item">
+                    <div class="achievement-number">47</div>
+                    <div class="achievement-label">Exoplanets Discovered</div>
+                </div>
+                <div class="achievement-item">
+                    <div class="achievement-number">1,247</div>
+                    <div class="achievement-label">Research Hours</div>
+                </div>
+                <div class="achievement-item">
+                    <div class="achievement-number">23</div>
+                    <div class="achievement-label">Awards Received</div>
+                </div>
+                <div class="achievement-item">
+                    <div class="achievement-number">8</div>
+                    <div class="achievement-label">Active Missions</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="missions" class="missions-section fade-in">
+        <div class="missions-container">
+            <h2 class="section-title">MISSION OPERATIONS</h2>
+            
+            <div class="mission-tabs">
+                <button class="mission-tab active" data-tab="exploration">Deep Space Exploration</button>
+                <button class="mission-tab" data-tab="research">Research Projects</button>
+                <button class="mission-tab" data-tab="discovery">Recent Discoveries</button>
+                <button class="mission-tab" data-tab="future">Future Missions</button>
+            </div>
+            
+            <div class="mission-content active" id="exploration">
+                <div class="mission-grid">
+                    <div class="mission-card">
+                        <h4>Kepler-442b Investigation</h4>
+                        <p>Comprehensive atmospheric analysis of this super-Earth located 1,206 light-years away. Studying potential biosignatures and atmospheric composition using advanced spectroscopy techniques.</p>
+                        <span class="mission-status">Active</span>
+                    </div>
+                    <div class="mission-card">
+                        <h4>Proxima Centauri Survey</h4>
+                        <p>Long-term monitoring mission of our nearest stellar neighbor, focusing on Proxima b's habitability potential and atmospheric dynamics during stellar flare events.</p>
+                        <span class="mission-status">Ongoing</span>
+                    </div>
+                    <div class="mission-card">
+                        <h4>Europa Deep Dive</h4>
+                        <p>Robotic exploration beneath Europa's ice sheet, searching for microbial life in the subsurface ocean and analyzing water samples from geysers.</p>
+                        <span class="mission-status">Planning</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mission-content" id="research">
+                <div class="mission-grid">
+                    <div class="mission-card">
+                        <h4>Atmospheric Modeling</h4>
+                        <p>Developing advanced computer models to predict exoplanet atmospheric conditions and identify optimal candidates for follow-up observations with next-generation telescopes.</p>
+                        <span class="mission-status">Active</span>
+                    </div>
+                    <div class="mission-card">
+                        <h4>Biosignature Database</h4>
+                        <p>Creating comprehensive catalog of potential biological markers that could indicate life on distant worlds, including both Earth-like and exotic biochemistries.</p>
+                        <span class="mission-status">Research</span>
+                    </div>
+                    <div class="mission-card">
+                        <h4>Interstellar Communication</h4>
+                        <p>Designing protocols for potential communication with extraterrestrial intelligence, including mathematical languages and universal concepts.</p>
+                        <span class="mission-status">Development</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mission-content" id="discovery">
+                <div class="mission-grid">
+                    <div class="mission-card">
+                        <h4>TOI-715b Confirmation</h4>
+                        <p>Recently confirmed this Earth-sized exoplanet in the habitable zone of a nearby red dwarf star, making it a prime candidate for atmospheric studies.</p>
+                        <span class="mission-status">Confirmed</span>
+                    </div>
+                    <div class="mission-card">
+                        <h4>Water Vapor Detection</h4>
+                        <p>First detection of water vapor in the atmosphere of K2-18b, a sub-Neptune exoplanet in its star's habitable zone, using Hubble Space Telescope data.</p>
+                        <span class="mission-status">Published</span>
+                    </div>
+                    <div class="mission-card">
+                        <h4>Multi-Planet System</h4>
+                        <p>Discovery of a seven-planet system around TRAPPIST-1, with three planets potentially habitable and showing signs of atmospheric retention.</p>
+                        <span class="mission-status">Complete</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mission-content" id="future">
+                <div class="mission-grid">
+                    <div class="mission-card">
+                        <h4>James Webb Follow-up</h4>
+                        <p>Planned observations using JWST to study atmospheric composition of newly discovered potentially habitable exoplanets, focusing on oxygen and methane detection.</p>
+                        <span class="mission-status">Scheduled</span>
+                    </div>
+                    <div class="mission-card">
+                        <h4>Breakthrough Starshot</h4>
+                        <p>Collaboration on developing ultra-light nanocrafts capable of reaching Alpha Centauri within 20 years to capture close-up images of Proxima b.</p>
+                        <span class="mission-status">Planning</span>
+                    </div>
+                    <div class="mission-card">
+                        <h4>Mars Sample Return</h4>
+                        <p>Leading the astrobiology analysis team for the Mars Sample Return mission, searching for ancient microbial life in carefully selected rock samples.</p>
+                        <span class="mission-status">Approved</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="equipment" class="fade-in">
+        <h2 class="section-title">RESEARCH INSTRUMENTS</h2>
+        <div class="equipment-container">
+            <div class="equipment-item">
+                <span>Hubble Telescope</span>
+            </div>
+            <div class="equipment-item">
+                <span>James Webb</span>
+            </div>
+            <div class="equipment-item">
+                <span>Spectroscopy Lab</span>
+            </div>
+            <div class="equipment-item">
+                <span>Radio Array</span>
+            </div>
+            <div class="equipment-item">
+                <span>AI Analysis</span>
+            </div>
+            <div class="equipment-item">
+                <span>Quantum Computing</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="fade-in">
+        <h2 class="section-title">RESEARCH COLLABORATION</h2>
+        <form class="contact-form">
+            <div class="form-group">
+                <input type="text" placeholder="Principal Investigator Name" required>
+            </div>
+            <div class="form-group">
+                <input type="email" placeholder="Institution Email" required>
+            </div>
+            <div class="form-group">
+                <textarea rows="5" placeholder="Research Proposal or Collaboration Inquiry" required></textarea>
+            </div>
+            <button type="submit" class="launch-btn">SUBMIT PROPOSAL</button>
+        </form>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Research Areas</h3>
+                <ul>
+                    <li><a href="#">Exoplanet Discovery</a></li>
+                    <li><a href="#">Astrobiology</a></li>
+                    <li><a href="#">Atmospheric Analysis</a></li>
+                    <li><a href="#">SETI Research</a></li>
+                    <li><a href="#">Space Technology</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Publications</h3>
+                <ul>
+                    <li><a href="#">Nature Astronomy</a></li>
+                    <li><a href="#">Astrophysical Journal</a></li>
+                    <li><a href="#">Science Magazine</a></li>
+                    <li><a href="#">Research Papers</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Professional Network</h3>
+                <p style="color: var(--star-silver); margin-bottom: 15px;">
+                    Connect with the global space research community
+                </p>
+                <div class="social-links">
+                    <a href="#" aria-label="ResearchGate">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2L3.09 8.26l1.82 1.28L12 4.8l7.09 4.74 1.82-1.28L12 2M12 7L2 12l10 5 10-5-10-5"/>
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="NASA Collaboration">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2L1 7l11 5 9-4.09V17h2V7L12 2M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82"/>
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="Academic Network">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2m0 2a8 8 0 0 1 8 8 8 8 0 0 1-8 8 8 8 0 0 1-8-8 8 8 0 0 1 8-8m0 2a6 6 0 0 0-6 6 6 6 0 0 0 6 6 6 6 0 0 0 6-6 6 6 0 0 0-6-6"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 이사이트는 작동하지 않는 정적 사이트 입니다. 그러니까 이메일 보내지는 기대 하지 하시고 그냥 도메인 소개만 읽어주세요 ^^ Design: <a href="https://www.tooplate.com" target="_blank" rel="noopener nofollow">Tooplate</a></p>
+        </div>
+    </footer>
+<script src="tooplate-stellaris-script.js"></script>
+</body>
+</html>
