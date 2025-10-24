@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - 페이지를 찾을 수 없습니다</title>
+    <style>
+        body {
+                font-family: 'Arial', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: #1a1a2e;
+            color: #fff;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        canvas#particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        h1 {
+            font-size: 60px;
+            margin: 0;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        p {
+            font-size: 20px;
+            margin: 10px 0 20px;
+            z-index: 1;
+        }
+        .compass {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: rotate 10s linear infinite;
+            z-index: 1;
+        }
+        .go-home-btn {
+            padding: 12px 24px;
+            background-color: #ff6b6b;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 16px;
+            transition: transform 0.3s, background-color 0.3s;
+            z-index: 1;
+            cursor: pointer;
+        }
+        .go-home-btn:hover {
+            background-color: #e63946;
+            transform: scale(1.1);
+        }
+        .loading {
+            display: none;
+            font-size: 16px;
+            margin-top: 20px;
+            z-index: 1;
+        }
+        .loading::before {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #fff;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        @keyframes rotate {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particles"></canvas>
+    <div class="compass">🧭</div>
+    <h1>ERROR 404</h1>
+    <p>페이지를 찾을 수 없습니다. 길을 잃으셨나요?</p>
+    <a href="https://www.google.co.kr" class="go-home-btn" onclick="showLoading(event)">GO HOME</a>
+    <div class="loading" id="loading">로드중...</div>
+
+    <script>
+        const canvas = document etiquette.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const particles = [];
+        for (let i = 0; i < 50; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 2 + 1,
+                vx: Math.random() * 2 - 1,
+                vy: Math.random() * 2 - 1
+            });
+        }
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+                ctx.fill();
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        function showLoading(event) {
+            event.preventDefault();
+            document.getElementById('loading').style.display = 'block';
+            document.querySelector('.go-home-btn').style.pointerEvents = 'none';
+            setTimeout(() => { window.location.href = "https://www.google.co.kr"; }, 2000);
+        }
+    </script>
+</body>
+</html>

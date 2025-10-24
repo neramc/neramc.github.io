@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>502 - 잘못된 게이트웨이</title>
+    <style>
+        body {
+                font-family: 'Arial', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: #2c3e50;
+            color: #fff;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .rain {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        .rain span {
+            position: absolute;
+            width: 2px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.5);
+            animation: fall 1s linear infinite;
+        }
+        h1 {
+            font-size: 60px;
+            margin: 0;
+            z-index: 1;
+        }
+        p {
+            font-size: 20px;
+            margin: 10px 0 20px;
+            z-index: 1;
+        }
+        .cloud {
+            font-size: 80px;
+            margin-bottom: 20px;
+            z-index: 1;
+            color: #54a0ff;
+            animation: float 3s ease-in-out infinite;
+        }
+        .go-home-btn {
+            padding: 12px 24px;
+            background-color: #54a0ff;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 16px;
+            transition: transform 0.3s, background-color 0.3s;
+            z-index: 1;
+            cursor: pointer;
+        }
+        .go-home-btn:hover {
+            background-color: #2e86de;
+            transform: scale(1.1);
+        }
+        .loading {
+            display: none;
+            font-size: 16px;
+            margin-top: 20px;
+            z-index: 1;
+        }
+        .loading::before {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #fff;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        @keyframes fall {
+            0% { transform: translateY(-100vh); }
+            100% { transform: translateY(100vh); }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="rain" id="rain"></div>
+    <div class="cloud">☁️</div>
+    <h1>ERROR 502</h1>
+    <p>잘못된 게이트웨이 오류가 발생했습니다.</p>
+    <a href="https://www.google.co.kr" class="go-home-btn" onclick="showLoading(event)">GO HOME</a>
+    <div class="loading" id="loading">로드중...</div>
+
+    <script>
+        const rain = document.getElementById('rain');
+        for (let i = 0; i < 50; i++) {
+            const drop = document.createElement('span');
+            drop.style.left = Math.random() * 100 + 'vw';
+            drop.style.animationDelay = Math.random() * 2 + 's';
+            rain.appendChild(drop);
+        }
+
+        function showLoading(event) {
+            event.preventDefault();
+            document.getElementById('loading').style.display = 'block';
+            document.querySelector('.go-home-btn').style.pointerEvents = 'none';
+            setTimeout(() => { window.location.href = "https://www.google.co.kr"; }, 2000);
+        }
+    </script>
+</body>
+</html>
