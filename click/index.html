@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>반응속도 테스트</title>
+    <link rel="icon" type="image/png" href="https://i.ifh.cc/wRXc4l.png">
+    <style>
+        @font-face {
+            font-family: 'NeoDunggeunmo';
+            src: url('https://github.com/neodgm/neodgm-pro/releases/download/v1.020/NeoDunggeunmoPro-Regular.woff2') format('woff2'),
+                 url('https://github.com/neodgm/neodgm-pro/releases/download/v1.020/NeoDunggeunmoPro-Regular.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'NeoDunggeunmo', monospace;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        #game-screen {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+
+        #game-screen.ready {
+            background-color: #4CAF50;
+        }
+
+        #game-screen.countdown {
+            background-color: #2196F3;
+        }
+
+        #game-screen.click {
+            background-color: #FFEB3B;
+        }
+
+        #game-screen.result {
+            background-color: #9C27B0;
+        }
+
+        #game-screen.too-early {
+            background-color: #f44336;
+        }
+
+        #text {
+            font-size: 80px;
+            color: white;
+            text-shadow: 4px 4px 0px rgba(0,0,0,0.3);
+            user-select: none;
+        }
+
+        #subtext {
+            font-size: 24px;
+            color: white;
+            margin-top: 20px;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.3);
+            user-select: none;
+        }
+
+        @media (max-width: 768px) {
+            #text {
+                font-size: 48px;
+            }
+            #subtext {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="game-screen" class="ready">
+        <div id="text">Ready?</div>
+        <div id="subtext">클릭하여 시작</div>
+    </div>
+
+    <script>
+        const screen = document.getElementById('game-screen');
+        const text = document.getElementById('text');
+        const subtext = document.getElementById('subtext');
+        
+        let state = 'ready'; // ready, countdown, waiting, click, result, too-early
+        let startTime = 0;
+        let countdownTimer;
+
+        function setState(newState) {
+            state = newState;
+            screen.className = newState;
+        }
+
+        function startCountdown() {
+            let count = 3;
+            text.textContent = count;
+            subtext.textContent = '';
+            setState('countdown');
+
+            countdownTimer = setInterval(() => {
+                count--;
+                if (count > 0) {
+                    text.textContent = count;
+                } else {
+                    clearInterval(countdownTimer);
+                    // 랜덤 딜레이 후 Click! 표시 (1~3초)
+                    const delay = Math.random() * 2000 + 1000;
+                    setTimeout(() => {
+                        showClick();
+                    }, delay);
+                    setState('waiting');
+                    text.textContent = '';
+                }
+            }, 1000);
+        }
+
+        function showClick() {
+            setState('click');
+            text.textContent = 'Click!';
+            startTime = Date.now();
+        }
+
+        function showResult(reactionTime) {
+            setState('result');
+            text.textContent = reactionTime.toFixed(1) + ' ms';
+            subtext.textContent = '클릭하여 다시 시작';
+        }
+
+        function showTooEarly() {
+            clearInterval(countdownTimer);
+            setState('too-early');
+            text.textContent = '너무 빨라요!';
+            subtext.textContent = '노란색 화면이 나올 때까지 기다리세요';
+            setTimeout(() => {
+                reset();
+            }, 2000);
+        }
+
+        function reset() {
+            setState('ready');
+            text.textContent = 'Ready?';
+            subtext.textContent = '클릭하여 시작';
+        }
+
+        function handleClick(e) {
+            e.preventDefault();
+
+            if (state === 'ready') {
+                startCountdown();
+            } else if (state === 'countdown' || state === 'waiting') {
+                showTooEarly();
+            } else if (state === 'click') {
+                const reactionTime = Date.now() - startTime;
+                showResult(reactionTime);
+            } else if (state === 'result' || state === 'too-early') {
+                reset();
+            }
+        }
+
+        // 좌클릭과 우클릭 모두 처리
+        screen.addEventListener('click', handleClick);
+        screen.addEventListener('contextmenu', handleClick);
+    </script>
+</body>
+</html>
