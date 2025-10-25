@@ -12,6 +12,7 @@ _______________________________
    Minimalism (https://neramc.github.io/minimalism/)
    Tetris
 (https://neramc.github.io/tetris/)
+   ClickTest (https://neramc.github.io/click/)
 _______________________________
 ## HTML
   • HTML 5
@@ -19,3 +20,4 @@ _______________________________
   • CSS
   • JavaScript
 _______________________________
+
