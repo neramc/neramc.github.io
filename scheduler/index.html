@@ -1,1 +1,437 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>스케줄러 봇 - Discord 일정 관리</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/1869/1869397.png">
+    <link rel="shortcut icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/1869/1869397.png">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/1869/1869397.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* 헤더 섹션 */
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero .subtitle {
+            font-size: 1.5rem;
+            opacity: 0.9;
+            margin-bottom: 50px;
+        }
+
+        /* 메인 버튼 */
+        .main-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 25px 60px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            animation: pulse 2s infinite;
+        }
+
+        .main-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        /* 기능 카드 */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 80px 0;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        /* 명령어 섹션 */
+        .commands {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 50px;
+            margin: 50px 0;
+        }
+
+        .commands h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+        }
+
+        .command-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .command-item {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .command-item:hover {
+            background: rgba(0, 0, 0, 0.3);
+            transform: translateX(5px);
+        }
+
+        .command-name {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: #f093fb;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        /* 개인정보 처리방침 */
+        .privacy {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 50px;
+            margin: 50px 0;
+        }
+
+        .privacy h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .privacy h3 {
+            font-size: 1.8rem;
+            margin: 30px 0 15px 0;
+            color: #f093fb;
+        }
+
+        .privacy p, .privacy ul {
+            line-height: 1.8;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .privacy ul {
+            list-style-position: inside;
+            padding-left: 20px;
+        }
+
+        .privacy li {
+            margin-bottom: 10px;
+        }
+
+        /* 푸터 */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            opacity: 0.8;
+        }
+
+        /* 애니메이션 */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            }
+            50% {
+                box-shadow: 0 10px 40px rgba(240, 147, 251, 0.5);
+            }
+        }
+
+        /* 반응형 */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .main-button {
+                padding: 20px 40px;
+                font-size: 1.2rem;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 히어로 섹션 -->
+        <div class="hero">
+            <h1>📅 스케줄러 봇</h1>
+            <p class="subtitle">Discord에서 일정과 알람을 쉽게 관리하세요</p>
+            <a href="https://discord.com/oauth2/authorize?client_id=1425966146355593268&permissions=277025638464&integration_type=0&scope=bot+applications.commands" 
+               class="main-button" 
+               target="_blank">
+                🚀 봇 서버에 추가하기
+            </a>
+        </div>
+
+        <!-- 주요 기능 -->
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">📅</div>
+                <h3>일정 관리</h3>
+                <p>팀 회의, 이벤트, 중요한 날짜를 쉽게 추가하고 관리하세요. 이미지와 상세 설명도 함께 저장할 수 있습니다.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">⏰</div>
+                <h3>스마트 알람</h3>
+                <p>매일, 주말, 평일, 특정 요일 등 다양한 반복 옵션으로 알람을 설정하세요. 놓치지 않을 거예요!</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <h3>직관적인 UI</h3>
+                <p>버튼과 드롭다운 메뉴로 구성된 인터랙티브한 UI로 누구나 쉽게 사용할 수 있습니다.</p>
+            </div>
+        </div>
+
+        <!-- 명령어 목록 -->
+        <div class="commands">
+            <h2>🛠️ 주요 명령어</h2>
+            <div class="command-list">
+                <div class="command-item">
+                    <div class="command-name">/일정추가</div>
+                    <p>새로운 일정을 추가합니다</p>
+                </div>
+                <div class="command-item">
+                    <div class="command-name">!일정보기</div>
+                    <p>등록된 모든 일정을 확인합니다</p>
+                </div>
+                <div class="command-item">
+                    <div class="command-name">!일정삭제</div>
+                    <p>원하는 일정을 삭제합니다</p>
+                </div>
+                <div class="command-item">
+                    <div class="command-name">!일정검색 [키워드]</div>
+                    <p>키워드로 일정을 검색합니다</p>
+                </div>
+                <div class="command-item">
+                    <div class="command-name">/알람추가</div>
+                    <p>새로운 알람을 추가합니다</p>
+                </div>
+                <div class="command-item">
+                    <div class="command-name">!알람보기</div>
+                    <p>등록된 모든 알람을 확인합니다</p>
+                </div>
+                <div class="command-item">
+                    <div class="command-name">!알람삭제</div>
+                    <p>원하는 알람을 삭제합니다</p>
+                </div>
+                <div class="command-item">
+                    <div class="command-name">!다가오는일정</div>
+                    <p>7일 이내의 일정을 확인합니다</p>
+                </div>
+                <div class="command-item">
+                    <div class="command-name">!통계</div>
+                    <p>서버의 통계를 확인합니다</p>
+                </div>
+                <div class="command-item">
+                    <div class="command-name">!도움말</div>
+                    <p>모든 명령어를 확인합니다</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 개인정보 처리방침 -->
+        <div class="privacy">
+            <h2>🔒 개인정보 처리방침</h2>
+            
+            <h3>1. 수집하는 데이터</h3>
+            <p>스케줄러 봇은 서비스 제공을 위해 다음 정보를 수집합니다:</p>
+            <ul>
+                <li><strong>서버 ID (Guild ID)</strong>: 서버별 일정 및 알람 관리</li>
+                <li><strong>사용자 ID (User ID)</strong>: 일정 생성자 식별 및 통계</li>
+                <li><strong>일정 정보</strong>: 제목, 날짜, 시간, 설명, 이미지 URL</li>
+                <li><strong>알람 정보</strong>: 시간, 메시지, 반복 설정</li>
+                <li><strong>채널 ID</strong>: 알람 및 일정 알림 전송 위치</li>
+            </ul>
+
+            <h3>2. 데이터 사용 목적</h3>
+            <ul>
+                <li>일정 및 알람 관리 서비스 제공</li>
+                <li>사용자 통계 기록 (생성한 일정/알람 수)</li>
+                <li>예정된 일정 및 알람 알림 전송</li>
+            </ul>
+
+            <h3>3. 데이터 저장 및 보안</h3>
+            <ul>
+                <li><strong>저장 방식</strong>: SQLite 데이터베이스에 로컬 저장</li>
+                <li><strong>보안</strong>: 암호화된 서버에서 안전하게 관리</li>
+                <li><strong>제3자 공유</strong>: 절대 제3자와 데이터를 공유하지 않습니다</li>
+                <li><strong>외부 전송</strong>: 데이터는 외부로 전송되지 않습니다</li>
+            </ul>
+
+            <h3>4. 데이터 보유 및 삭제</h3>
+            <ul>
+                <li>사용자가 직접 일정/알람 삭제 가능 (즉시 삭제됨)</li>
+                <li>봇이 서버에서 제거되면 해당 서버의 모든 데이터 삭제</li>
+                <li>데이터 삭제 요청 시 7일 이내 완전 삭제</li>
+            </ul>
+
+            <h3>5. 사용자 권리</h3>
+            <p>사용자는 다음 권리를 가집니다:</p>
+            <ul>
+                <li>자신의 데이터 열람 권리</li>
+                <li>데이터 삭제 요청 권리</li>
+                <li>데이터 처리 중지 요청 권리</li>
+            </ul>
+
+            <h3>6. 쿠키 및 추적</h3>
+            <p>스케줄러 봇은 쿠키나 추적 기술을 사용하지 않습니다.</p>
+
+            <h3>7. 만 13세 미만 사용자</h3>
+            <p>Discord의 정책에 따라 만 13세 미만 사용자의 데이터는 수집하지 않습니다.</p>
+
+            <h3>8. 정책 변경</h3>
+            <p>개인정보 처리방침이 변경될 경우, 이 페이지를 통해 공지됩니다.</p>
+
+            <h3>9. 문의</h3>
+            <p>개인정보 처리방침 관련 문의사항이 있으시면 언제든지 연락해주세요.</p>
+            <ul>
+                <li>이메일: support@scheduler-bot.com (예시)</li>
+                <li>Discord 서버: [지원 서버 초대 링크]</li>
+            </ul>
+
+            <p style="margin-top: 30px; text-align: center; opacity: 0.7;">
+                <strong>마지막 업데이트:</strong> 2025년 10월 26일
+            </p>
+        </div>
+
+        <!-- 푸터 -->
+        <div class="footer">
+            <p>Made with ❤️ for Discord communities</p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">
+                © 2025 스케줄러 봇. All rights reserved.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // 부드러운 스크롤
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // 카드 애니메이션
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '0';
+                    entry.target.style.transform = 'translateY(20px)';
+                    
+                    setTimeout(() => {
+                        entry.target.style.transition = 'all 0.6s ease';
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, 100);
+                    
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.feature-card, .command-item').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
