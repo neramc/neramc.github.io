@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>403 - 접근 금지</title>
+    <style>
+        body {
+                font-family: 'Arial', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: #162447;
+            color: #fff;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .forbidden-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 300px;
+            color: rgba(255, 255, 255, 0.1);
+            z-index: 0;
+        }
+        h1 {
+            font-size: 60px;
+            margin: 0;
+            z-index: 1;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        p {
+            font-size: 20px;
+            margin: 10px 0 20px;
+            z-index: 1;
+        }
+        .lock {
+            font-size: 80px;
+            margin-bottom: 20px;
+            z-index: 1;
+            color: #feca57;
+            animation: shake 0.5s ease-in-out infinite;
+        }
+        .go-home-btn {
+            padding: 12px 24px;
+            background-color: #feca57;
+            color: #162447;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 16px;
+            transition: transform 0.3s, background-color 0.3s;
+            z-index: 1;
+            cursor: pointer;
+        }
+        .go-home-btn:hover {
+            background-color: #ff9f43;
+            transform: scale(1.1);
+        }
+        .loading {
+            display: none;
+            font-size: 16px;
+            margin-top: 20px;
+            z-index: 1;
+        }
+        .loading::before {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #fff;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(-5px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="forbidden-bg">🚫</div>
+    <div class="lock">🔒</div>
+    <h1>ERROR 403</h1>
+    <p>접근이 금지되었습니다.</p>
+    <a href="https://www.google.co.kr" class="go-home-btn" onclick="showLoading(event)">GO HOME</a>
+    <div class="loading" id="loading">로드중...</div>
+
+    <script>
+        function showLoading(event) {
+            event.preventDefault();
+            document.getElementById('loading').style.display = 'block';
+            document.querySelector('.go-home-btn').style.pointerEvents = 'none';
+            setTimeout(() => { window.location.href = "https://www.google.co.kr"; }, 2000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>401 - 인증 필요</title>
+    <style>
+        body {
+                font-family: 'Arial', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: #1e1e2f;
+            color: #fff;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        /* 흐릿한 배경 텍스트 */
+        .auth-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 250px;
+            color: rgba(255, 255, 255, 0.1);
+            z-index: 0;
+            font-weight: bold;
+        }
+        h1 {
+            font-size: 60px;
+            margin: 0;
+            z-index: 1;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        p {
+            font-size: 20px;
+            margin: 10px 0 20px;
+            z-index: 1;
+        }
+        /* 열쇠 아이콘 */
+        .key {
+            font-size: 80px;
+            margin-bottom: 20px;
+            z-index: 1;
+            color: #00ddeb;
+            animation: wiggle 1s ease-in-out infinite;
+        }
+        .go-home-btn {
+            padding: 12px 24px;
+            background-color: #00ddeb;
+            color: #1e1e2f;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 16px;
+            transition: transform 0.3s, background-color 0.3s;
+            z-index: 1;
+            cursor: pointer;
+        }
+        .go-home-btn:hover {
+            background-color: #00b7c2;
+            transform: scale(1.1);
+        }
+        .loading {
+            display: none;
+            font-size: 16px;
+            margin-top: 20px;
+            z-index: 1;
+        }
+        .loading::before {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #fff;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-10deg); }
+            50% { transform: rotate(10deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-bg">401</div>
+    <div class="key">🔑</div>
+    <h1>ERROR 401</h1>
+    <p>인증이 필요합니다. 접근 권한이 없습니다.</p>
+    <a href="https://www.google.co.kr" class="go-home-btn" onclick="showLoading(event)">GO HOME</a>
+    <div class="loading" id="loading">로드중...</div>
+
+    <script>
+        function showLoading(event) {
+            event.preventDefault();
+            document.getElementById('loading').style.display = 'block';
+            document.querySelector('.go-home-btn').style.pointerEvents = 'none';
+            setTimeout(() => { window.location.href = "https://www.google.co.kr"; }, 2000);
+        }
+    </script>
+</body>
+</html>

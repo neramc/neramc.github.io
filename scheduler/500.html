@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>500 - 서버 오류</title>
+    <style>
+        body {
+                font-family: 'Arial', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: #0b0b1a;
+            color: #fff;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .background-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"%3E%3Ccircle cx="100" cy="100" r="50" fill="none" stroke="%23ff6b6b" stroke-width="2" opacity="0.2"/%3E%3Ccircle cx="50" cy="50" r="20" fill="none" stroke="%23ff6b6b" stroke-width="2" opacity="0.2"/%3E%3Ccircle cx="150" cy="150" r="30" fill="none" stroke="%23ff6b6b" stroke-width="2" opacity="0.2"/%3E%3C/svg%3E');
+            z-index: 0;
+            animation: pulse 5s infinite;
+        }
+        h1 {
+            font-size: 60px;
+            margin: 0;
+            z-index: 1;
+            animation: glitch 1s linear infinite;
+        }
+        p {
+            font-size: 20px;
+            margin: 10px 0 20px;
+            z-index: 1;
+        }
+        .warning {
+            font-size: 80px;
+            margin-bottom: 20px;
+            z-index: 1;
+            color: #ff6b6b;
+        }
+        .go-home-btn {
+            padding: 12px 24px;
+            background-color: #ff6b6b;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 16px;
+            transition: transform 0.3s, background-color 0.3s;
+            z-index: 1;
+            cursor: pointer;
+        }
+        .go-home-btn:hover {
+            background-color: #e63946;
+            transform: scale(1.1);
+        }
+        .loading {
+            display: none;
+            font-size: 16px;
+            margin-top: 20px;
+            z-index: 1;
+        }
+        .loading::before {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #fff;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(2px, -2px); }
+            60% { transform: translate(-2px, -2px); }
+            80% { transform: translate(2px, 2px); }
+            100% { transform: translate(0); }
+        }
+        @keyframes pulse {
+            0% { opacity: 0.2; }
+            50% { opacity: 0.4; }
+            100% { opacity: 0.2; }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-pattern"></div>
+    <div class="warning">⚠️</div>
+    <h1>ERROR 500</h1>
+    <p>서버에 문제가 발생했습니다. 나중에 다시 시도해주세요.</p>
+    <a href="https://www.google.co.kr" class="go-home-btn" onclick="showLoading(event)">GO HOME</a>
+    <div class="loading" id="loading">로드중...</div>
+
+    <script>
+        function showLoading(event) {
+            event.preventDefault();
+            document.getElementById('loading').style.display = 'block';
+            document.querySelector('.go-home-btn').style.pointerEvents = 'none';
+            setTimeout(() => { window.location.href = "https://www.google.co.kr"; }, 2000);
+        }
+    </script>
+</body>
+</html>
