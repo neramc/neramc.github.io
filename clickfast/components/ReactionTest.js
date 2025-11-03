@@ -99,12 +99,6 @@ export default function ReactionTest() {
     }
   };
 
-pro/releases/download/v1.020/NeoDunggeunmoPro-Regular.woff2') format('woff2'),
-               url('https://github.com/neodgm/neodgm-pro/releases/download/v1.020/NeoDunggeunmoPro-Regular.woff') format('woff');
-          font-weight: normal;
-          font-style: normal;
-        }
-
         * {
           margin: 0;
           padding: 0;
@@ -112,7 +106,6 @@ pro/releases/download/v1.020/NeoDunggeunmoPro-Regular.woff2') format('woff2'),
         }
 
         body {
-          font-family: 'NeoDunggeunmo', monospace;
           overflow: hidden;
         }
       `}</style>
@@ -130,7 +123,6 @@ pro/releases/download/v1.020/NeoDunggeunmoPro-Regular.woff2') format('woff2'),
           backgroundColor: getBackgroundColor(),
           transition: 'background-color 0.3s',
           cursor: 'pointer',
-          fontFamily: 'NeoDunggeunmo, monospace',
         }}
       >
         <div
