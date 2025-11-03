@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>429 - 요청 과다</title>
+    <style>
+        body {
+                font-family: 'Arial', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: #2b2d42;
+            color: #fff;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        /* 점 패턴 배경 */
+        .dots-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Ccircle cx="10" cy="10" r="2" fill="%23fff" opacity="0.3"/%3E%3Ccircle cx="30" cy="30" r="2" fill="%23fff" opacity="0.3"/%3E%3Ccircle cx="50" cy="50" r="2" fill="%23fff" opacity="0.3"/%3E%3Ccircle cx="70" cy="70" r="2" fill="%23fff" opacity="0.3"/%3E%3Ccircle cx="90" cy="90" r="2" fill="%23fff" opacity="0.3"/%3E%3C/svg%3E');
+            z-index: 0;
+            animation: blink 2s infinite;
+        }
+        h1 {
+            font-size: 60px;
+            margin: 0;
+            z-index: 1;
+        }
+        p {
+            font-size: 20px;
+            margin: 10px 0 20px;
+            z-index: 1;
+        }
+        /* 시계 아이콘 */
+        .clock {
+            font-size: 80px;
+            margin-bottom: 20px;
+            z-index: 1;
+            color: #ff9f1c;
+            animation: tick 1s ease-in-out infinite;
+        }
+        .go-home-btn {
+            padding: 12px 24px;
+            background-color: #ff9f1c;
+            color: #2b2d42;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 16px;
+            transition: transform 0.3s, background-color 0.3s;
+            z-index: 1;
+            cursor: pointer;
+        }
+        .go-home-btn:hover {
+            background-color: #f48c06;
+            transform: scale(1.1);
+        }
+        .loading {
+            display: none;
+            font-size: 16px;
+            margin-top: 20px;
+            z-index: 1;
+        }
+        .loading::before {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #fff;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+        @keyframes tick {
+            0%, 100% { transform: rotate(0); }
+            50% { transform: rotate(5deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="dots-bg"></div>
+    <div class="clock">⏰</div>
+    <h1>ERROR 429</h1>
+    <p>요청이 너무 많습니다. 잠시 후 다시 시도해주세요.</p>
+    <a href="https://www.google.co.kr" class="go-home-btn" onclick="showLoading(event)">GO HOME</a>
+    <div class="loading" id="loading">로드중...</div>
+
+    <script>
+        function showLoading(event) {
+            event.preventDefault();
+            document.getElementById('loading').style.display = 'block';
+            document.querySelector('.go-home-btn').style.pointerEvents = 'none';
+            setTimeout(() => { window.location.href = "https://www.google.co.kr"; }, 2000);
+        }
+    </script>
+</body>
+</html>
