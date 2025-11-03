@@ -99,12 +99,7 @@ export default function ReactionTest() {
     }
   };
 
-  return (
-    <>
-      <style jsx global>{`
-        @font-face {
-          font-family: 'NeoDunggeunmo';
-          src: url('https://github.com/neodgm/neodgm-pro/releases/download/v1.020/NeoDunggeunmoPro-Regular.woff2') format('woff2'),
+pro/releases/download/v1.020/NeoDunggeunmoPro-Regular.woff2') format('woff2'),
                url('https://github.com/neodgm/neodgm-pro/releases/download/v1.020/NeoDunggeunmoPro-Regular.woff') format('woff');
           font-weight: normal;
           font-style: normal;
