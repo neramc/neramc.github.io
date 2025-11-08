@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <title>README.md 뷰어</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- 상대 경로 링크/이미지 정상 동작을 위해 base 지정 -->
+  <base href="./" />
+
+  <!-- 하이라이트.js 기본 테마 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js/styles/default.min.css">
+
+  <style>
+    :root { --maxw: 900px; }
+    html, body { margin:0; padding:0; }
+    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif; line-height: 1.6; }
+    .container { max-width: var(--maxw); margin: 40px auto; padding: 0 16px; }
+    .md :is(h1,h2,h3,h4,h5,h6){ margin-top:1.6em; margin-bottom:.6em; }
+    .md h1{ border-bottom:1px solid #e5e7eb; padding-bottom:.3em; }
+    .md p, .md ul, .md ol, .md blockquote, .md pre, .md table { margin: 1em 0; }
+    .md img{ max-width:100%; height:auto; }
+    .md table{ border-collapse:collapse; width:100%; overflow:auto; display:block; }
+    .md table th, .md table td{ border:1px solid #e5e7eb; padding:.5em .7em; }
+    .md code{ font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; background:#f6f8fa; padding:.1em .3em; border-radius:4px; }
+    .md pre code{ background: transparent; padding:0; }
+    .md pre{ background:#f6f8fa; padding:16px; border-radius:8px; overflow:auto; }
+    .error { color:#b91c1c; background:#fef2f2; border:1px solid #fecaca; padding:12px; border-radius:8px; }
+    .loading { color:#374151; }
+    .topbar { position: sticky; top:0; background: #ffffffcc; backdrop-filter: blur(6px); border-bottom:1px solid #eee; padding:10px 16px; }
+    .topbar button { cursor:pointer; }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <strong>PLUGIN INFO</strong>
+    <button id="reloadBtn" style="margin-left:8px;">새로고침</button>
+  </div>
+  <div class="container">
+    <div id="status" class="loading">README.md 불러오는 중...</div>
+    <main id="app" class="md" hidden></main>
+  </div>
+
+  <!-- 라이브러리: marked (Markdown → HTML), DOMPurify (보안), highlight.js (코드 하이라이트) -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/highlight.js/lib/common.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/highlight.min.js"></script>
+
+  <script>
+    // marked 기본 옵션 (GitHub 스타일 헤더 ID 등)
+    marked.setOptions({
+      gfm: true,
+      breaks: false,
+      headerIds: true,
+      mangle: false, // 한글 헤더 깨짐 방지
+      highlight: function(code, lang) {
+        try {
+          if (lang && hljs.getLanguage(lang)) {
+            return hljs.highlight(code, { language: lang }).value;
+          }
+          return hljs.highlightAuto(code).value;
+        } catch {
+          return code;
+        }
+      }
+    });
+
+    const appEl = document.getElementById('app');
+    const statusEl = document.getElementById('status');
+    const reloadBtn = document.getElementById('reloadBtn');
+
+    async function loadReadme() {
+      statusEl.hidden = false;
+      appEl.hidden = true;
+      statusEl.textContent = 'README.md 불러오는 중...';
+
+      try {
+        const res = await fetch('./README.md', { cache: 'no-cache' });
+        if (!res.ok) {
+          throw new Error('HTTP ' + res.status + ' - README.md을(를) 찾을 수 없습니다.');
+        }
+        const md = await res.text();
+
+        // Markdown → HTML
+        const rawHtml = marked.parse(md);
+
+        // 보안상 정화
+        const cleanHtml = DOMPurify.sanitize(rawHtml, { ADD_ATTR: ['target'] });
+
+        // 렌더링
+        appEl.innerHTML = cleanHtml;
+
+        // 코드 하이라이트 (추가 보정)
+        document.querySelectorAll('pre code').forEach(block => {
+          try { hljs.highlightElement(block); } catch {}
+        });
+
+        // 외부 링크는 새 탭으로
+        fixLinksTarget();
+
+        // 해시(#heading) 스크롤 처리
+        if (location.hash) {
+          const id = decodeURIComponent(location.hash.substring(1));
+          const target = document.getElementById(id);
+          if (target) target.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        statusEl.hidden = true;
+        appEl.hidden = false;
+      } catch (err) {
+        statusEl.className = 'error';
+        statusEl.textContent =
+          'README.md를 불러오지 못했습니다. ' +
+          '웹 서버를 통해 접속 중인지 확인하세요. (' + err.message + ')';
+      }
+    }
+
+    function fixLinksTarget() {
+      const anchors = appEl.querySelectorAll('a[href]');
+      anchors.forEach(a => {
+        const href = a.getAttribute('href') || '';
+        // 절대 URL은 새 탭으로, 내부 상대경로는 현재 탭 유지
+        const isAbsolute = /^https?:\/\//i.test(href);
+        if (isAbsolute) {
+          a.setAttribute('target', '_blank');
+          a.setAttribute('rel', 'noopener noreferrer');
+        }
+      });
+    }
+
+    reloadBtn.addEventListener('click', loadReadme);
+    window.addEventListener('hashchange', () => {
+      const id = decodeURIComponent(location.hash.substring(1));
+      const target = document.getElementById(id);
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // 초기 로드
+    loadReadme();
+  </script>
+</body>
+</html>
