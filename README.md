@@ -9,7 +9,7 @@ mdmv.kro.kr/<files>
 _______________________________
 ## channel
    
-   [Minimalism](https://neramc.github.io/minima
+   [Minimalism](https://neramc.github.io/Minimalism/)
 _______________________________
 ## HTML
   • HTML 5
