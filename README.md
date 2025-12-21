@@ -8,11 +8,8 @@ mdmv.kro.kr/<files>
 [![Netlify Status](https://api.netlify.com/api/v1/badges/b8ccc933-67eb-4612-badd-c513d5d5dcc5/deploy-status)](https://app.netlify.com/projects/mdmv/deploys)
 _______________________________
 ## channel
-   multismp (https://neramc.github.io/multismp/)
-   Minimalism (https://neramc.github.io/minimalism/)
-   Tetris
-(https://neramc.github.io/tetris/)
-   ClickTest (https://neramc.github.io/click/)
+   
+   [Minimalism](https://neramc.github.io/minima
 _______________________________
 ## HTML
   • HTML 5
