@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>마인크래프트 자바 에디션: 엔더 드래곤 잡는 방법</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", Arial, sans-serif; line-height: 1.65; margin: 0; }
+    header { padding: 28px 18px; border-bottom: 1px solid rgba(127,127,127,.35); }
+    main { max-width: 980px; margin: 0 auto; padding: 18px; }
+    h1 { margin: 0 0 6px; font-size: 1.7rem; }
+    .sub { opacity: .8; margin: 0; }
+    .card { border: 1px solid rgba(127,127,127,.35); border-radius: 14px; padding: 16px; margin: 14px 0; }
+    .grid { display: grid; gap: 14px; grid-template-columns: 1fr; }
+    @media (min-width: 860px) { .grid { grid-template-columns: 1fr 1fr; } }
+    code, kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; font-size: .95em; }
+    kbd { padding: 1px 6px; border: 1px solid rgba(127,127,127,.45); border-bottom-width: 2px; border-radius: 6px; }
+    ul { margin: 8px 0 8px 20px; }
+    ol { margin: 8px 0 8px 20px; }
+    .tag { display: inline-block; padding: 2px 10px; border-radius: 999px; border: 1px solid rgba(127,127,127,.35); opacity: .9; margin-right: 6px; }
+    .warn { background: rgba(255, 193, 7, .12); border-color: rgba(255, 193, 7, .55); }
+    .ok { background: rgba(76, 175, 80, .10); border-color: rgba(76, 175, 80, .45); }
+    .tip { background: rgba(33, 150, 243, .10); border-color: rgba(33, 150, 243, .45); }
+    footer { padding: 20px 18px; border-top: 1px solid rgba(127,127,127,.35); opacity: .75; }
+    .checklist li { margin: 6px 0; }
+    .mini { opacity: .85; font-size: .95rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>엔더 드래곤 잡는 방법 (Minecraft: Java Edition)</h1>
+    <p class="sub">준비 → 엔더 포탈 찾기 → 엔더로 이동 → 크리스탈 파괴 → 드래곤 처치까지, 한 번에 정리!</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <span class="tag ok">목표</span>
+      <strong>엔더 드래곤을 안전하고 빠르게 처치</strong>
+      <p class="mini">
+        핵심은 딱 2개야: <b>① 엔드 크리스탈부터 제거</b>, <b>② 드래곤이 내려왔을 때(퍼치) 확실히 때리기</b>.
+        자, “보스전은 준비가 80%”라는 말… 진짜야. 🙂
+      </p>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <h2>1) 출발 전 준비물 체크리스트</h2>
+        <ul class="checklist">
+          <li><b>방어구</b>: 다이아 이상(가능하면 네더라이트) + <b>보호(Protection)</b> 인챈트</li>
+          <li><b>무기</b>: 검(날카로움) + 활(힘/무한 or 수리)</li>
+          <li><b>화살</b>: 충분히 (무한 인챈트면 1개도 OK)</li>
+          <li><b>블록</b>: 2~3스택(코블스톤/원목 등) — 다리 놓기/기둥 세우기</li>
+          <li><b>엔더 진주</b>: 떨어질 때 생존용 “비상탈출 버튼”</li>
+          <li><b>물 양동이</b>: 낙하 데미지 방지(물착지), 엔더맨 견제에도 도움</li>
+          <li><b>느린 낙하(Slow Falling) 포션</b>: 있으면 난이도 확 내려감</li>
+          <li><b>회복</b>: 스테이크/황금사과(가능하면) + 즉시 회복 포션(선택)</li>
+          <li><b>침대</b>: 리스폰용(엔더에서는 침대 폭발! “리스폰” 목적으로는 엔더 밖에서만)</li>
+          <li><b>호박</b>(선택): 머리에 쓰면 엔더맨이 덜 화남(시야가 답답한 게 단점)</li>
+        </ul>
+        <p class="tag warn"><b>주의</b> 엔더에서는 <b>침대/리스폰 앵커가 폭발</b>해!</p>
+      </div>
+
+      <div class="card">
+        <h2>2) 엔더 포탈 열기 (요약 루트)</h2>
+        <ol>
+          <li><b>블레이즈 막대</b> 얻기(네더 요새에서 블레이즈 처치)</li>
+          <li><b>엔더 진주</b> 얻기(엔더맨 처치/거래 등)</li>
+          <li>조합: 블레이즈 가루 + 엔더 진주 → <b>엔더의 눈</b></li>
+          <li>지상에서 엔더의 눈 사용 → <b>요새(Stronghold)</b> 방향 추적</li>
+          <li>요새 내부에서 포탈 룸 찾기 → 포탈 프레임에 눈을 채워 <b>엔더 포탈 활성화</b></li>
+        </ol>
+        <p class="mini">
+          기억 꿀팁: <b>“눈(엔더의 눈) = 길찾기 + 문열기”</b> (요새도 찾고, 포탈도 열고!)
+        </p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>3) 엔더 들어가자마자 해야 할 일 (생존 1분 루틴)</h2>
+      <ol>
+        <li><b>주변 확인</b>: 바닥이 작은 섬이면 먼저 <b>블록으로 안전지대</b> 만들기</li>
+        <li><b>엔더맨 눈 마주치지 않기</b>: 시선은 바닥/수평선 아래로</li>
+        <li><b>물 양동이/블록</b>를 바로 단축키에 둬서 비상 상황 대비</li>
+        <li>가능하면 <b>느린 낙하 포션</b>을 미리 마셔두기(낙사 위험 크게 감소)</li>
+      </ol>
+      <p class="tag tip"><b>팁</b> 엔더 드래곤전에서 “죽음 1순위”는 사실 드래곤이 아니라 <b>낙사</b>야.</p>
+    </section>
+
+    <section class="card">
+      <h2>4) 1단계: 엔드 크리스탈부터 부수기 (최우선!)</h2>
+      <p class="mini">
+        엔드 크리스탈은 드래곤을 <b>회복</b>시켜.  
+        그래서 전투 공식은 이거야: <b>“회복 끊고 → 본체 딜”</b>
+      </p>
+      <ul>
+        <li><b>방법 A: 활로 파괴</b> (가장 안전)
+          <ul>
+            <li>기둥 위 크리스탈을 멀리서 활로 쏘기</li>
+            <li>철창(케이지) 있는 크리스탈은 각도 잡아 <b>틈 사이</b>로 맞추거나, 기둥에 올라가서 처리</li>
+          </ul>
+        </li>
+        <li><b>방법 B: 기둥에 올라가 근접 파괴</b> (위험)
+          <ul>
+            <li>블록으로 기둥을 쌓아 올라가기</li>
+            <li>위에서 크리스탈 파괴 후 <b>물착지/엔더 진주</b>로 안전하게 내려오기</li>
+          </ul>
+        </li>
+      </ul>
+      <p class="tag warn"><b>주의</b> 크리스탈은 폭발해! 너무 가까이서 부수면 본인도 같이 터질 수 있어.</p>
+    </section>
+
+    <section class="card">
+      <h2>5) 2단계: 드래곤 딜 넣는 타이밍 (퍼치 때가 찬스)</h2>
+      <p class="mini">
+        드래곤이 중앙의 베드락 기둥(포탈 위) 근처로 내려와 머리를 고정하는 순간을 <b>퍼치(Perch)</b>라고 해.
+        이때가 “무료 딜 타임”!
+      </p>
+      <ul>
+        <li><b>퍼치 중 공격</b>:
+          <ul>
+            <li>가능하면 <b>머리</b>를 때리기(더 효율적)</li>
+            <li>검으로 연속 타격 + 치명타 점프는 상황 봐서(낙사/넉백 주의)</li>
+          </ul>
+        </li>
+        <li><b>공중 비행 중</b>:
+          <ul>
+            <li>활로 견제(특히 드래곤이 멀리 있을 때)</li>
+            <li>드래곤 브레스(보라색 구름)는 절대 밟지 말기</li>
+          </ul>
+        </li>
+      </ul>
+      <p class="tag tip"><b>팁</b> “내려오면 칼, 날면 활” — 이거 하나만 외워도 전투가 쉬워져.</p>
+    </section>
+
+    <section class="card">
+      <h2>6) 엔더 드래곤 브레스/넉백 대처법</h2>
+      <ul>
+        <li><b>브레스(보라색 구름)</b>: 닿으면 계속 아픔 → <b>바로 벗어나기</b></li>
+        <li><b>넉백</b>: 기둥 근처에서 튕겨나가면 낙사 위험 → <b>중앙 가장자리 조심</b></li>
+        <li><b>낙사 직전</b>: <b>엔더 진주</b>를 섬 쪽으로 던지기(비상 탈출)</li>
+        <li><b>물 양동이</b>: 떨어지기 직전에 물 설치해서 착지(물착지)</li>
+      </ul>
+      <p class="mini">
+        스스로에게 질문 하나! <b>“내가 지금 죽을 가능성이 큰 건, 적의 공격일까? 아니면 떨어질까?”</b><br/>
+        답이 “떨어질 것 같다”면, 딜 욕심 버리고 <b>포지션</b>부터 잡는 게 이겨.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>7) 처치 후 보상 & 다음 단계</h2>
+      <ul>
+        <li><b>경험치(엄청 많이)</b>가 쏟아짐</li>
+        <li>중앙에 <b>엔드 포탈</b> 생성(오버월드로 귀환)</li>
+        <li>근처에 <b>엔더 드래곤 알</b>이 생성됨(장식/기념품)</li>
+        <li>외곽에 <b>엔드 게이트웨이</b>가 열려 엔드 시티(엘리트라/셔커 상자) 탐험 가능</li>
+      </ul>
+      <p class="tag ok"><b>기억</b> 드래곤 잡은 뒤가 진짜 엔더 “2막”이야. (엘리트라가 기다림!)</p>
+    </section>
+
+    <section class="card">
+      <h2>8) 초보자용 “안전한 진행 순서” 한 줄 요약</h2>
+      <p style="font-size: 1.05rem; margin: 8px 0;">
+        <b>안전지대 만들기 → 크리스탈 전부 파괴(활 우선) → 퍼치 때 검으로 집중딜 → 낙사만 조심!</b>
+      </p>
+      <p class="mini">
+        마지막 체크! 지금 너의 전투 계획은 뭐야?<br/>
+        <b>① 활 위주 안전플레이</b>로 갈래, 아니면 <b>② 근접딜 빠른 클리어</b>로 갈래?
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="mini">
+      이 문서는 마인크래프트 자바 에디션 기준으로 “일반적인 엔더 드래곤 공략”을 정리한 안내문입니다.<br/>
+      원하는 난이도(평화/쉬움/보통/어려움)나 장비 수준(철/다이아/네더라이트)에 맞춰 전략을 조정하면 더 편해져요.
+    </div>
+  </footer>
+</body>
+</html>
