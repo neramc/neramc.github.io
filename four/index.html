@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>틱택토 AI 대전</title>
+    <style>
+        body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; background: #f0f2f5; }
+        .board { display: grid; grid-template-columns: repeat(3, 100px); gap: 5px; margin-top: 20px; }
+        .cell { width: 100px; height: 100px; background: white; border: 2px solid #333; display: flex; 
+                align-items: center; justify-content: center; font-size: 2.5rem; font-weight: bold; cursor: pointer; }
+        .cell.taken { cursor: not-allowed; }
+        .controls { margin-top: 20px; }
+        button { padding: 10px 20px; font-size: 1rem; cursor: pointer; }
+        #status { margin-top: 15px; font-size: 1.2rem; font-weight: bold; color: #333; }
+    </style>
+</head>
+<body>
+
+    <h1>틱택토 vs AI</h1>
+
+    <div class="controls">
+        난이도: 
+        <select id="difficulty">
+            <option value="easy">쉬움 (랜덤)</option>
+            <option value="medium">보통 (혼합)</option>
+            <option value="hard" selected>어려움 (Minimax)</option>
+        </select>
+        <button onclick="resetGame()">다시 시작</button>
+    </div>
+
+    <div id="status">당신의 차례입니다 (X)</div>
+    <div class="board" id="board"></div>
+
+    <script>
+        const boardElement = document.getElementById('board');
+        const statusElement = document.getElementById('status');
+        const diffSelect = document.getElementById('difficulty');
+        let board = ["", "", "", "", "", "", "", "", ""];
+        let gameActive = true;
+        const HUMAN = "X";
+        const AI = "O";
+
+        // 보드 초기화
+        function createBoard() {
+            boardElement.innerHTML = "";
+            board.forEach((cell, index) => {
+                const cellDiv = document.createElement('div');
+                cellDiv.classList.add('cell');
+                cellDiv.innerText = cell;
+                cellDiv.addEventListener('click', () => handleHumanMove(index));
+                boardElement.appendChild(cellDiv);
+            });
+        }
+
+        function handleHumanMove(index) {
+            if (board[index] !== "" || !gameActive) return;
+            makeMove(index, HUMAN);
+            
+            if (gameActive) {
+                statusElement.innerText = "AI가 생각 중...";
+                setTimeout(handleAIMove, 500);
+            }
+        }
+
+        function makeMove(index, player) {
+            board[index] = player;
+            createBoard();
+            if (checkWin(board, player)) {
+                statusElement.innerText = player === HUMAN ? "당신이 이겼습니다!" : "AI가 이겼습니다!";
+                gameActive = false;
+            } else if (board.every(cell => cell !== "")) {
+                statusElement.innerText = "무승부입니다!";
+                gameActive = false;
+            } else {
+                statusElement.innerText = player === HUMAN ? "AI의 차례입니다 (O)" : "당신의 차례입니다 (X)";
+            }
+        }
+
+        // --- AI 난이도별 로직 ---
+        function handleAIMove() {
+            if (!gameActive) return;
+            const diff = diffSelect.value;
+            let move;
+
+            if (diff === "easy") {
+                move = getRandomMove();
+            } else if (diff === "medium") {
+                move = Math.random() > 0.5 ? getBestMove() : getRandomMove();
+            } else {
+                move = getBestMove();
+            }
+
+            makeMove(move, AI);
+        }
+
+        function getRandomMove() {
+            const available = board.map((v, i) => v === "" ? i : null).filter(v => v !== null);
+            return available[Math.floor(Math.random() * available.length)];
+        }
+
+        // Minimax 입구
+        function getBestMove() {
+            let bestScore = -Infinity;
+            let move;
+            for (let i = 0; i < 9; i++) {
+                if (board[i] === "") {
+                    board[i] = AI;
+                    let score = minimax(board, 0, false);
+                    board[i] = "";
+                    if (score > bestScore) {
+                        bestScore = score;
+                        move = i;
+                    }
+                }
+            }
+            return move;
+        }
+
+        const scores = { "O": 10, "X": -10, "tie": 0 };
+
+        function minimax(board, depth, isMaximizing) {
+            let result = checkWinState(board);
+            if (result !== null) return scores[result];
+
+            if (isMaximizing) {
+                let bestScore = -Infinity;
+                for (let i = 0; i < 9; i++) {
+                    if (board[i] === "") {
+                        board[i] = AI;
+                        let score = minimax(board, depth + 1, false);
+                        board[i] = "";
+                        bestScore = Math.max(score, bestScore);
+                    }
+                }
+                return bestScore;
+            } else {
+                let bestScore = Infinity;
+                for (let i = 0; i < 9; i++) {
+                    if (board[i] === "") {
+                        board[i] = HUMAN;
+                        let score = minimax(board, depth + 1, true);
+                        board[i] = "";
+                        bestScore = Math.min(score, bestScore);
+                    }
+                }
+                return bestScore;
+            }
+        }
+
+        // 승패 체크 함수들
+        function checkWin(b, p) {
+            const winPatterns = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+            return winPatterns.some(pattern => pattern.every(i => b[i] === p));
+        }
+
+        function checkWinState(b) {
+            if (checkWin(b, AI)) return AI;
+            if (checkWin(b, HUMAN)) return HUMAN;
+            if (b.every(cell => cell !== "")) return "tie";
+            return null;
+        }
+
+        function resetGame() {
+            board = ["", "", "", "", "", "", "", "", ""];
+            gameActive = true;
+            statusElement.innerText = "당신의 차례입니다 (X)";
+            createBoard();
+        }
+
+        createBoard();
+    </script>
+</body>
+</html>
