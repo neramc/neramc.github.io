@@ -1,0 +1,444 @@
+<!-- index.html -->
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>카톡 대체 가이드(한국 사용자 기준) — “회사 데이터 수집이 싫다” 관점</title>
+  <meta name="description" content="텔레그램/페메/왓츠앱을 '회사(플랫폼)의 정보 접근·수집' 관점에서 비교하고, 한국 사용자 기준 대체 가이드와 설문 추천을 제공합니다." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <p class="kicker">프라이버시 중심 카톡 대체 가이드</p>
+      <h1>“회사(플랫폼)가 내 정보를 가져가는 게 싫다”<br/>기준으로 메신저 고르기</h1>
+      <p class="subtitle">
+        같은 “안전”이라도 <strong>대화내용(본문)</strong>과 <strong>흔적(메타데이터)</strong>은 다른 게임이야.
+        너는 어느 쪽이 더 싫어?
+      </p>
+
+      <nav class="nav">
+        <a href="#two-things">안심의 2가지</a>
+        <a href="#compare">3종 비교</a>
+        <a href="#kr-guide">카톡 대체 가이드(한국)</a>
+        <a href="#news">뉴스로 보는 흐름</a>
+        <a href="#survey">내 환경 설문</a>
+        <a href="#sources">출처</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- 1) 안심의 2가지 -->
+    <section id="two-things" class="card reveal">
+      <h2>1) “안심”은 보통 2가지를 섞어서 말해</h2>
+
+      <div class="grid-2">
+        <div class="callout">
+          <h3>① 대화 <span class="pill">내용</span>이 새는가?</h3>
+          <p>
+            메시지/통화 <strong>본문</strong>을 플랫폼(회사)이나 중간자가 볼 수 있느냐.
+            핵심 키워드: <strong>종단간 암호화(E2EE)</strong>.
+          </p>
+        </div>
+
+        <div class="callout">
+          <h3>② 대화 <span class="pill">흔적</span>이 남는가?</h3>
+          <p>
+            누가 누구와, 언제, 얼마나 자주… 같은 <strong>메타데이터</strong>.
+            본문이 잠겨도 “송장(누구↔누구)”은 남을 수 있어.
+          </p>
+        </div>
+      </div>
+
+      <details class="accordion" open>
+        <summary>초간단 비유로 기억하기</summary>
+        <p>
+          E2EE는 <strong>택배 상자 안 “내용물”</strong>을 자물쇠로 잠그는 거야.<br/>
+          메타데이터는 <strong>택배 “송장”</strong>이라서 내용물은 못 봐도 송장은 남을 수 있어.
+        </p>
+      </details>
+    </section>
+
+    <!-- 2) 비교표 -->
+    <section id="compare" class="card reveal">
+      <h2>2) 텔레그램 vs 페메 vs 왓츠앱: “회사 정보수집이 싫다” 관점 비교</h2>
+
+      <p class="note">
+        아래는 “기본 E2EE 여부/구조 차이” 중심으로 정리했어.
+        (정책/기능은 바뀔 수 있으니 마지막엔 공식 정책도 같이 확인 추천!)
+      </p>
+
+      <div class="table-wrap">
+        <table class="compare">
+          <thead>
+            <tr>
+              <th>항목</th>
+              <th>WhatsApp</th>
+              <th>Messenger(페메)</th>
+              <th>Telegram</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1:1 대화 기본 E2EE</strong></td>
+              <td class="good">예(공식 안내)</td>
+              <td class="ok">롤아웃/적용 확대(대화별 표시 확인 필요)</td>
+              <td class="warn">아니오(기본 Cloud Chat, E2EE는 Secret Chat)</td>
+            </tr>
+            <tr>
+              <td><strong>그룹에서 E2EE</strong></td>
+              <td class="ok">가능(구성/기능에 따라 다를 수 있음)</td>
+              <td class="warn">상황에 따라 다름(전환/옵션이 섞일 수 있음)</td>
+              <td class="warn">기본 그룹 Cloud는 E2EE 아님</td>
+            </tr>
+            <tr>
+              <td><strong>멀티디바이스/PC 편의성</strong></td>
+              <td class="good">좋음</td>
+              <td class="good">좋음</td>
+              <td class="good">매우 좋음(Cloud 중심)</td>
+            </tr>
+            <tr>
+              <td><strong>“회사 서버 저장” 성격</strong></td>
+              <td class="ok">본문은 E2EE(백업/기기 설정은 사용자가 주의)</td>
+              <td class="ok">E2EE 확대 중(표시/설정 확인이 중요)</td>
+              <td class="warn">기본은 서버 저장 기반(Secret Chat만 E2EE)</td>
+            </tr>
+            <tr>
+              <td><strong>“회사 생태계” 관점</strong></td>
+              <td class="warn">Meta 계열</td>
+              <td class="warn">Meta 계열</td>
+              <td class="ok">Meta는 아님</td>
+            </tr>
+            <tr>
+              <td><strong>“회사 정보수집이 싫다”만 놓고</strong></td>
+              <td class="ok">본문 보호(E2EE)는 강한 편</td>
+              <td class="warn">Meta 계열 + 전환 구간 확인 필요</td>
+              <td class="ok">Meta 회피엔 유리하지만 민감대화는 Secret Chat 필수</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="warning">
+        <p>
+          ⚠️ “E2EE = 회사가 아무것도 못 가진다”는 뜻은 아니야.<br/>
+          “회사 데이터 수집”이 정말 싫다면, <strong>본문(내용)</strong>뿐 아니라 <strong>메타데이터(흔적)</strong>까지 같이 생각하는 게 핵심!
+          그래서 아래 “한국 기준 가이드”랑 “설문 추천”을 붙였어.
+        </p>
+      </div>
+    </section>
+
+    <!-- 3) 한국 사용자 기준 카톡 대체 가이드 -->
+    <section id="kr-guide" class="card reveal">
+      <h2>3) 카톡 대체 가이드(한국 사용자 기준): 체크리스트로 고르자</h2>
+      <p class="note">
+        “카톡 대체”는 앱 하나만 바꾸면 끝이 아니라, <strong>내가 카톡에서 쓰던 습관</strong>을 무엇으로 대체하느냐가 포인트야.
+        아래 체크리스트에 체크가 많이 몰리는 쪽이 “체감 대체”가 쉬워져.
+      </p>
+
+      <div class="grid-3">
+        <div class="mini">
+          <h3>① 연락처 기반/초대 문화</h3>
+          <ul>
+            <li><strong>전화번호 기반 가입</strong>이 편한가?</li>
+            <li><strong>연락처 동기화</strong>에 거부감이 큰가?</li>
+            <li>“초대 링크로 들어오기”가 자주 필요한가?</li>
+          </ul>
+          <p class="mini-note">팁: 전화번호/연락처 동기화는 편의성과 프라이버시가 충돌하는 지점이야.</p>
+        </div>
+
+        <div class="mini">
+          <h3>② PC/업무용 사용</h3>
+          <ul>
+            <li>PC에서 <strong>상시 접속</strong>이 중요한가?</li>
+            <li>파일을 자주 주고받나(문서/사진/압축파일)?</li>
+            <li>회사 PC라면 <strong>알림/잠금</strong> 설정이 꼭 필요</li>
+          </ul>
+          <p class="mini-note">팁: PC 편의성이 높을수록 “서버/기기 흔적” 관리가 더 중요해져.</p>
+        </div>
+
+        <div class="mini">
+          <h3>③ 단톡/모임 운영</h3>
+          <ul>
+            <li>단톡이 많나, 1:1이 많나?</li>
+            <li>공지/투표/고정 메시지 같은 운영 기능이 필요한가?</li>
+            <li>민감한 얘기는 단톡에서 하지 않을 자신이 있나?</li>
+          </ul>
+          <p class="mini-note">팁: 민감 대화는 “단톡”보다 “1:1”에서 E2EE가 더 중요해지는 경우가 많아.</p>
+        </div>
+      </div>
+
+      <details class="accordion">
+        <summary>“회사 정보수집이 싫다”를 실천으로 바꾸는 6가지 습관</summary>
+        <ol>
+          <li><strong>연락처 동기화</strong>: 꼭 필요할 때만 켜고, 불필요하면 끄기</li>
+          <li><strong>백업 점검</strong>: 백업이 평문이면 대화가 잠겨도 백업이 뚫릴 수 있음</li>
+          <li><strong>민감대화 분리</strong>: “잡담용”과 “민감용”을 대화방/앱으로 분리</li>
+          <li><strong>자동 삭제</strong>: 민감한 건 오래 두지 않기</li>
+          <li><strong>링크/파일</strong>: 암호화랑 별개로 피싱이 가장 흔한 구멍</li>
+          <li><strong>표시 확인</strong>: E2EE가 “기본/옵션/전환 중”인 서비스는 표시를 확인하는 습관이 핵심</li>
+        </ol>
+      </details>
+    </section>
+
+    <!-- 4) 뉴스 섹션 -->
+    <section id="news" class="card reveal">
+      <h2>4) 뉴스로 보는 흐름: “카톡/메신저 프라이버시” 이슈들</h2>
+      <p class="note">
+        아래는 “카톡 관련 이슈(업데이트/프라이버시/장애)”와 “대체 메신저 보안 기능 변화(E2EE/백업 등)”를
+        빠르게 훑을 수 있는 기사 링크 모음이야.
+      </p>
+
+      <div class="news-grid">
+        <!-- KakaoTalk 관련 -->
+        <article class="news-item">
+          <div class="news-top">
+            <span class="tag">KakaoTalk</span>
+            <span class="date">2025-12-16</span>
+          </div>
+          <h3>
+            <a target="_blank" rel="noopener"
+              href="https://koreajoongangdaily.joins.com/news/2025-12-16/business/tech/Kakao-reverts-back-to-directorystyle-Friends-list-after-intense-backlash/2478991">
+              Kakao, Friends 탭 변경 관련 반발 후 ‘되돌리기’(보도)
+            </a>
+          </h3>
+          <p class="news-desc">UI/피드형 탭 등 변경에 대한 반발과 조정 움직임을 다룬 보도.</p>
+        </article>
+
+        <article class="news-item">
+          <div class="news-top">
+            <span class="tag">KakaoTalk</span>
+            <span class="date">2025-08-26</span>
+          </div>
+          <h3>
+            <a target="_blank" rel="noopener"
+              href="https://www.koreatimes.co.kr/business/tech-science/20250826/kakao-faces-backlash-over-data-privacy-violations-in-ad-service">
+              카카오 광고 서비스 관련 개인정보 이슈 제기(보도)
+            </a>
+          </h3>
+          <p class="news-desc">광고/메시지 전달 방식과 개인정보·비용 관련 문제 제기 내용을 다룬 보도.</p>
+        </article>
+
+        <article class="news-item">
+          <div class="news-top">
+            <span class="tag">KakaoTalk</span>
+            <span class="date">2024-07-18</span>
+          </div>
+          <h3>
+            <a target="_blank" rel="noopener"
+              href="https://koreajoongangdaily.joins.com/news/2024-07-18/business/tech/KakaoTalk-PC-version-experiences-widespread-login-issues/2093255">
+              카카오톡 PC 로그인 이슈(보도)
+            </a>
+          </h3>
+          <p class="news-desc">PC버전 접속 장애/오류 등 서비스 안정성 관련 보도.</p>
+        </article>
+
+        <article class="news-item">
+          <div class="news-top">
+            <span class="tag">KakaoTalk</span>
+            <span class="date">2024-05-21</span>
+          </div>
+          <h3>
+            <a target="_blank" rel="noopener"
+              href="https://www.koreaherald.com/article/3398813">
+              KakaoTalk PC 장애가 이어졌다는 보도(2nd day)
+            </a>
+          </h3>
+          <p class="news-desc">PC버전 장애가 반복/지속된 정황을 다룬 보도.</p>
+        </article>
+
+        <article class="news-item">
+          <div class="news-top">
+            <span class="tag">KakaoTalk</span>
+            <span class="date">2022-10-15</span>
+          </div>
+          <h3>
+            <a target="_blank" rel="noopener"
+              href="https://www.reuters.com/world/asia-pacific/fire-knocks-out-services-south-korea-tech-giants-kakao-naver-2022-10-15/">
+              (Reuters) 데이터센터 화재로 카카오/네이버 서비스 장애
+            </a>
+          </h3>
+          <p class="news-desc">대규모 장애와 사회적 영향(결제/교통 등)을 다룬 Reuters 보도.</p>
+        </article>
+
+        <!-- 대체 메신저/보안 기능 변화 -->
+        <article class="news-item">
+          <div class="news-top">
+            <span class="tag">Messenger</span>
+            <span class="date">2023-12-06</span>
+          </div>
+          <h3>
+            <a target="_blank" rel="noopener"
+              href="https://about.fb.com/news/2023/12/default-end-to-end-encryption-on-messenger/">
+              (Meta) Messenger 기본 E2EE 롤아웃 발표
+            </a>
+          </h3>
+          <p class="news-desc">개인 메시지/통화에 기본 E2EE를 확장한다는 공식 발표.</p>
+        </article>
+
+        <article class="news-item">
+          <div class="news-top">
+            <span class="tag">WhatsApp</span>
+            <span class="date">2025-10-30</span>
+          </div>
+          <h3>
+            <a target="_blank" rel="noopener"
+              href="https://about.fb.com/news/2025/10/making-it-easier-to-encrypt-whatsapp-chat-backups/">
+              (Meta) WhatsApp 백업 E2EE를 더 쉽게(패스키) 만든다는 발표
+            </a>
+          </h3>
+          <p class="news-desc">백업이 “약한 고리”가 될 수 있어서, 백업 암호화 개선은 실사용에서 체감이 큼.</p>
+        </article>
+
+        <article class="news-item">
+          <div class="news-top">
+            <span class="tag">WhatsApp</span>
+            <span class="date">2025-11</span>
+          </div>
+          <h3>
+            <a target="_blank" rel="noopener"
+              href="https://www.theverge.com/news/809842/whatsapp-passkey-chat-backup-encryption">
+              (The Verge) WhatsApp, 백업을 패스키로 보호
+            </a>
+          </h3>
+          <p class="news-desc">패스키 기반으로 백업 접근을 쉽게/강하게 만드는 흐름 소개.</p>
+        </article>
+
+        <article class="news-item">
+          <div class="news-top">
+            <span class="tag">WhatsApp</span>
+            <span class="date">2026-01-25</span>
+          </div>
+          <h3>
+            <a target="_blank" rel="noopener"
+              href="https://www.bloomberg.com/news/articles/2026-01-25/lawsuit-claims-meta-can-see-whatsapp-chats-in-breach-of-privacy">
+              (Bloomberg) WhatsApp 암호화 주장 관련 소송 보도
+            </a>
+          </h3>
+          <p class="news-desc">
+            “소송 제기/반박” 같은 뉴스는 결론이 나기 전까진 ‘사실 확정’이 아니라 ‘진행 중 이슈’로 보는 게 안전해.
+          </p>
+        </article>
+      </div>
+
+      <details class="accordion">
+        <summary>뉴스를 읽을 때의 안전한 관점 3가지</summary>
+        <ul>
+          <li><strong>“취약점/소송”</strong> 기사는 결론 전까지는 “주장/반박”으로 분리해서 보기</li>
+          <li><strong>기본 E2EE</strong>라도 백업/동기화/알림/스크린샷은 별문제</li>
+          <li><strong>회사 데이터 수집이 싫다</strong>면 “기능”보다 “설정/습관”이 더 큰 차이를 만든다</li>
+        </ul>
+      </details>
+    </section>
+
+    <!-- 5) 설문: 내 환경 선호 -->
+    <section id="survey" class="card reveal">
+      <h2>5) 내 환경 설문(3~4문항): 선택하면 “추천 메신저”가 뜬다</h2>
+      <p class="note">
+        아래는 “너의 우선순위”를 빠르게 잡기 위한 설문이야.
+        결과는 기기에 저장되고(로컬스토리지), 지난 기록도 아래에 남겨둬.
+      </p>
+
+      <form id="surveyForm" class="survey">
+        <fieldset class="field">
+          <legend>Q1. Meta(페북/인스타/Meta 계열)에 대한 거부감이 큰 편이야?</legend>
+          <label><input type="radio" name="avoidMeta" value="yes" required /> 예, Meta 계열이 싫어</label>
+          <label><input type="radio" name="avoidMeta" value="no" /> 아니, Meta 상관없어</label>
+        </fieldset>
+
+        <fieldset class="field">
+          <legend>Q2. 민감한 대화(속마음/민원/계약/민감정보)는 주로 어디서 해?</legend>
+          <label><input type="radio" name="sensitiveWhere" value="oneToOne" required /> 1:1에서 많이 해</label>
+          <label><input type="radio" name="sensitiveWhere" value="group" /> 단톡에서도 종종 해</label>
+          <label><input type="radio" name="sensitiveWhere" value="rare" /> 거의 안 해(대화가 가벼움)</label>
+        </fieldset>
+
+        <fieldset class="field">
+          <legend>Q3. PC/웹에서 자주 써야 해?</legend>
+          <label><input type="radio" name="needPC" value="high" required /> 높음(업무/상시)</label>
+          <label><input type="radio" name="needPC" value="mid" /> 중간(가끔)</label>
+          <label><input type="radio" name="needPC" value="low" /> 낮음(거의 폰만)</label>
+        </fieldset>
+
+        <fieldset class="field">
+          <legend>Q4. “민감대화는 Secret Chat처럼 따로(기기 종속/분리 운영)” 하는 걸 감수할 수 있어?</legend>
+          <label><input type="radio" name="acceptSplit" value="yes" required /> 예, 분리 운영 OK</label>
+          <label><input type="radio" name="acceptSplit" value="no" /> 아니, 하나로 편하게 쓰고 싶어</label>
+        </fieldset>
+
+        <div class="actions">
+          <button type="submit" id="btnSubmit">추천 + 저장</button>
+          <button type="button" class="secondary" id="btnClear">기록 지우기</button>
+        </div>
+      </form>
+
+      <div id="surveyResult" class="result-banner" aria-live="polite">
+        <div class="result-title">추천 결과가 여기 표시돼</div>
+        <div class="result-body muted">설문을 제출하면 “메신저 이름”이 애니메이션으로 뜰 거야.</div>
+      </div>
+
+      <div class="history">
+        <h3>내 설문 기록(최근 6개)</h3>
+        <div id="historyList" class="history-list muted">아직 기록이 없어.</div>
+      </div>
+    </section>
+
+    <!-- 6) 출처 -->
+    <section id="sources" class="card reveal">
+      <h2>출처(공식/기사)</h2>
+      <p class="note">
+        본문에서 핵심 기준으로 삼은 “기본 E2EE/Secret Chat 구조/백업 암호화”는 아래 공식 문서/보도 링크에서 확인할 수 있어.
+      </p>
+
+      <ul class="sources">
+        <li>
+          WhatsApp — About end-to-end encryption:
+          <a href="https://faq.whatsapp.com/820124435853543" target="_blank" rel="noopener">faq.whatsapp.com/…/820124435853543</a>
+        </li>
+        <li>
+          Telegram — FAQ:
+          <a href="https://telegram.org/faq" target="_blank" rel="noopener">telegram.org/faq</a>
+        </li>
+        <li>
+          Telegram — E2EE manual(Secret Chat 개념):
+          <a href="https://tsf.telegram.org/manuals/e2ee-simple" target="_blank" rel="noopener">tsf.telegram.org/…/e2ee-simple</a>
+        </li>
+        <li>
+          Meta — Messenger 기본 E2EE 롤아웃 발표:
+          <a href="https://about.fb.com/news/2023/12/default-end-to-end-encryption-on-messenger/" target="_blank" rel="noopener">about.fb.com/…/default-end-to-end-encryption-on-messenger</a>
+        </li>
+        <li>
+          Meta — WhatsApp 백업 E2EE(패스키) 발표:
+          <a href="https://about.fb.com/news/2025/10/making-it-easier-to-encrypt-whatsapp-chat-backups/" target="_blank" rel="noopener">about.fb.com/…/encrypt-whatsapp-chat-backups</a>
+        </li>
+        <li>
+          (기사) KakaoTalk PC 이슈(예시):
+          <a href="https://koreajoongangdaily.joins.com/news/2024-07-18/business/tech/KakaoTalk-PC-version-experiences-widespread-login-issues/2093255" target="_blank" rel="noopener">
+            koreajoongangdaily.joins.com/…
+          </a>
+        </li>
+        <li>
+          (기사) Reuters — 2022 데이터센터 화재:
+          <a href="https://www.reuters.com/world/asia-pacific/fire-knocks-out-services-south-korea-tech-giants-kakao-naver-2022-10-15/" target="_blank" rel="noopener">
+            reuters.com/…
+          </a>
+        </li>
+        <li class="muted">
+          [추가 정보] “메타데이터 최소화” 철학 앱(예: Signal)도 비교 대상에 넣는 경우가 많음.
+        </li>
+      </ul>
+    </section>
+
+    <footer class="footer reveal">
+      <p>
+        마지막 한마디: <strong>“앱 이름”보다 “설정 + 습관”</strong>이 결과를 더 크게 바꿔.<br/>
+        특히 “회사 데이터 수집이 싫다”면, <strong>연락처/백업/자동삭제/표시확인</strong> 4가지는 꼭 챙기자.
+      </p>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
