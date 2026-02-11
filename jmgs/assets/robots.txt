@@ -1,4 +1,0 @@
-User-agent : *
-Disallow: /bos/
-Disallow: /upload/
-Disallow: /portal/singl/myPage/
