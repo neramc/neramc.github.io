@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>URL Redirect</title>
+  <style>
+    :root{
+      --bg1:#0f172a;
+      --bg2:#1e293b;
+      --bg3:#312e81;
+      --card:rgba(255,255,255,0.14);
+      --line:rgba(255,255,255,0.18);
+      --text:#f8fafc;
+      --muted:#cbd5e1;
+      --accent:#a78bfa;
+      --accent2:#22d3ee;
+      --shadow:0 20px 60px rgba(0,0,0,.35);
+      --radius:24px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans KR",
+                   "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 10% 20%, rgba(34,211,238,.18), transparent 28%),
+        radial-gradient(circle at 85% 15%, rgba(167,139,250,.20), transparent 30%),
+        radial-gradient(circle at 80% 85%, rgba(59,130,246,.18), transparent 30%),
+        linear-gradient(135deg, var(--bg1), var(--bg2) 55%, var(--bg3));
+      overflow:hidden;
+    }
+
+    .mesh, .mesh::before, .mesh::after{
+      content:"";
+      position:absolute;
+      inset:auto;
+      border-radius:50%;
+      filter:blur(50px);
+      opacity:.45;
+      pointer-events:none;
+      animation:float 10s ease-in-out infinite;
+    }
+    .mesh{
+      width:300px;height:300px;left:-80px;top:-60px;
+      background:linear-gradient(135deg, rgba(34,211,238,.5), rgba(168,85,247,.35));
+    }
+    .mesh::before{
+      width:360px;height:360px;right:-120px;top:120px;
+      background:linear-gradient(135deg, rgba(99,102,241,.42), rgba(59,130,246,.28));
+      animation-delay:-3s;
+    }
+    .mesh::after{
+      width:260px;height:260px;left:45vw;bottom:-80px;
+      background:linear-gradient(135deg, rgba(236,72,153,.26), rgba(56,189,248,.25));
+      animation-delay:-6s;
+    }
+
+    @keyframes float {
+      0%,100%{transform:translateY(0) translateX(0) scale(1)}
+      50%{transform:translateY(-18px) translateX(14px) scale(1.05)}
+    }
+
+    .wrap{
+      position:relative;
+      min-height:100%;
+      display:grid;
+      place-items:center;
+      padding:28px;
+    }
+
+    .card{
+      position:relative;
+      width:min(680px, 100%);
+      border:1px solid var(--line);
+      background:var(--card);
+      box-shadow:var(--shadow);
+      backdrop-filter: blur(20px) saturate(140%);
+      -webkit-backdrop-filter: blur(20px) saturate(140%);
+      border-radius:var(--radius);
+      overflow:hidden;
+    }
+
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(120deg, rgba(255,255,255,.20), transparent 18%, transparent 82%, rgba(255,255,255,.08)),
+        linear-gradient(180deg, rgba(255,255,255,.08), transparent 35%);
+      pointer-events:none;
+    }
+
+    .header{
+      padding:28px 28px 12px;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.16);
+      background:rgba(255,255,255,.08);
+      color:#e9d5ff;
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+    }
+
+    h1{
+      margin:16px 0 8px;
+      font-size:clamp(28px, 4vw, 42px);
+      line-height:1.1;
+      letter-spacing:-0.03em;
+    }
+
+    .sub{
+      margin:0;
+      color:var(--muted);
+      font-size:15px;
+      line-height:1.7;
+    }
+
+    .form{
+      padding:20px 28px 28px;
+      display:grid;
+      gap:16px;
+    }
+
+    .input-wrap{
+      position:relative;
+    }
+
+    .input-wrap input{
+      width:100%;
+      height:62px;
+      border:none;
+      outline:none;
+      border-radius:18px;
+      padding:0 18px 0 52px;
+      color:var(--text);
+      font-size:16px;
+      background:rgba(15,23,42,.55);
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.05);
+      transition:.25s ease;
+    }
+
+    .input-wrap input::placeholder{color:#94a3b8}
+    .input-wrap input:focus{
+      border-color:rgba(34,211,238,.8);
+      box-shadow:0 0 0 5px rgba(34,211,238,.14), inset 0 1px 0 rgba(255,255,255,.06);
+      transform:translateY(-1px);
+    }
+
+    .link-icon{
+      position:absolute;
+      left:18px; top:50%;
+      transform:translateY(-50%);
+      opacity:.85;
+      font-size:18px;
+    }
+
+    .actions{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    button{
+      cursor:pointer;
+      border:none;
+      outline:none;
+      height:54px;
+      padding:0 22px;
+      border-radius:16px;
+      font-size:15px;
+      font-weight:700;
+      transition:transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+    }
+
+    .primary{
+      color:#0f172a;
+      background:linear-gradient(135deg, #67e8f9, #a78bfa 55%, #f0abfc);
+      box-shadow:0 12px 28px rgba(167,139,250,.28);
+      min-width:160px;
+    }
+
+    .secondary{
+      color:var(--text);
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.14);
+      min-width:110px;
+    }
+
+    button:hover{
+      transform:translateY(-2px);
+    }
+
+    .helper{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+
+    .status{
+      min-height:24px;
+      font-size:14px;
+      color:var(--muted);
+    }
+
+    .status.error{color:#fda4af}
+    .status.ok{color:#86efac}
+
+    .tips{
+      display:grid;
+      gap:10px;
+      padding:0 28px 26px;
+    }
+
+    .tip-box{
+      border-radius:18px;
+      padding:16px 18px;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.7;
+    }
+
+    .tip-box strong{color:#fff}
+
+    .footer{
+      padding:0 28px 24px;
+      color:#94a3b8;
+      font-size:12px;
+    }
+
+    @media (max-width:640px){
+      .header{padding:22px 20px 8px}
+      .form{padding:16px 20px 22px}
+      .tips{padding:0 20px 20px}
+      .footer{padding:0 20px 20px}
+      .input-wrap input{height:58px}
+      button{width:100%}
+    }
+  </style>
+</head>
+<body>
+  <div class="mesh"></div>
+
+  <main class="wrap">
+    <section class="card" aria-label="URL redirect card">
+      <div class="header">
+        <span class="badge">Redirect Page</span>
+        <h1>원하는 URL로<br>바로 이동</h1>
+        <p class="sub">
+          아래 입력창에 주소를 넣고 <strong>이동하기</strong>를 누르면 해당 페이지로 리디렉션됩니다.
+          <br>예: <code>https://example.com</code> 또는 <code>naver.com</code>
+        </p>
+      </div>
+
+      <div class="form">
+        <div class="input-wrap">
+          <span class="link-icon">🔗</span>
+          <input id="urlInput" type="text" inputmode="url" autocomplete="off"
+                 placeholder="이동할 URL을 입력하세요" />
+        </div>
+
+        <div class="actions">
+          <button class="primary" id="goBtn">이동하기</button>
+          <button class="secondary" id="clearBtn" type="button">지우기</button>
+        </div>
+
+        <div class="helper">
+          <div id="status" class="status">주소를 입력한 뒤 Enter를 눌러도 됩니다.</div>
+        </div>
+      </div>
+
+      <div class="tips">
+        <div class="tip-box">
+          <strong>자동 보정:</strong> <code>https://</code> 없이 입력하면 자동으로 붙여서 이동합니다.
+        </div>
+      </div>
+
+      <div class="footer">
+        Made as a single-file HTML redirect page.
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const input = document.getElementById('urlInput');
+    const goBtn = document.getElementById('goBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const status = document.getElementById('status');
+
+    function normalizeUrl(raw) {
+      let value = (raw || '').trim();
+      if (!value) return null;
+
+      if (!/^https?:\/\//i.test(value)) {
+        value = 'https://' + value;
+      }
+
+      try {
+        const url = new URL(value);
+        if (!/^https?:$/i.test(url.protocol)) return null;
+        return url.toString();
+      } catch {
+        return null;
+      }
+    }
+
+    function setStatus(message, type='') {
+      status.textContent = message;
+      status.className = 'status' + (type ? ' ' + type : '');
+    }
+
+    function redirectToInput() {
+      const normalized = normalizeUrl(input.value);
+
+      if (!normalized) {
+        setStatus('올바른 URL 형식이 아닙니다. 예: https://example.com', 'error');
+        input.focus();
+        return;
+      }
+
+      setStatus('잠시 후 이동합니다: ' + normalized, 'ok');
+      setTimeout(() => {
+        window.location.href = normalized;
+      }, 250);
+    }
+
+    goBtn.addEventListener('click', redirectToInput);
+    clearBtn.addEventListener('click', () => {
+      input.value = '';
+      setStatus('주소를 입력한 뒤 Enter를 눌러도 됩니다.');
+      input.focus();
+    });
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') redirectToInput();
+    });
+
+    window.addEventListener('load', () => input.focus());
+  </script>
+</body>
+</html>
