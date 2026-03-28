@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linux Apps Reference</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --color-background-primary: #ffffff;
+    --color-background-secondary: #f7f7f5;
+    --color-background-tertiary: #f0efeb;
+    --color-text-primary: #1a1a18;
+    --color-text-secondary: #6b6b67;
+    --color-text-tertiary: #9c9a92;
+    --color-border-tertiary: rgba(0,0,0,0.1);
+    --color-border-secondary: rgba(0,0,0,0.18);
+    --color-border-primary: rgba(0,0,0,0.28);
+    --font-sans: system-ui, -apple-system, sans-serif;
+    --border-radius-lg: 12px;
+    --border-radius-md: 8px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-background-primary: #1a1a18;
+      --color-background-secondary: #222220;
+      --color-background-tertiary: #2a2a28;
+      --color-text-primary: #e8e6de;
+      --color-text-secondary: #9c9a92;
+      --color-text-tertiary: #6b6b67;
+      --color-border-tertiary: rgba(255,255,255,0.08);
+      --color-border-secondary: rgba(255,255,255,0.14);
+      --color-border-primary: rgba(255,255,255,0.22);
+    }
+  }
+  body {
+    font-family: var(--font-sans);
+    background: var(--color-background-primary);
+    color: var(--color-text-primary);
+    padding: 24px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  h1 { font-size: 20px; font-weight: 500; margin-bottom: 4px; }
+  .subtitle { font-size: 13px; color: var(--color-text-secondary); margin-bottom: 20px; }
+  .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+  .filter-btn {
+    padding: 5px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer;
+    border: 1px solid var(--color-border-secondary); background: var(--color-background-secondary);
+    color: var(--color-text-secondary); transition: all .15s;
+  }
+  .filter-btn.active, .filter-btn:hover {
+    background: var(--color-background-tertiary);
+    color: var(--color-text-primary);
+    border-color: var(--color-border-primary);
+  }
+  .section { margin-bottom: 24px; }
+  .section-title {
+    font-size: 12px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--color-text-tertiary); margin-bottom: 10px; padding-bottom: 6px;
+    border-bottom: 1px solid var(--color-border-tertiary);
+  }
+  .section-desc { font-weight: 400; text-transform: none; letter-spacing: 0; }
+  .badge {
+    display: inline-block; font-size: 10px; padding: 1px 7px; border-radius: 10px;
+    font-weight: 500; margin-left: 6px; vertical-align: middle;
+  }
+  .badge-core { background: #EEEDFE; color: #3C3489; }
+  .badge-rec  { background: #E1F5EE; color: #085041; }
+  @media (prefers-color-scheme: dark) {
+    .badge-core { background: #3C3489; color: #CECBF6; }
+    .badge-rec  { background: #085041; color: #9FE1CB; }
+  }
+  .apps-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
+  .app-card {
+    border: 1px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg);
+    padding: 10px 12px; background: var(--color-background-secondary);
+    transition: border-color .15s, background .15s;
+  }
+  .app-card:hover { border-color: var(--color-border-secondary); background: var(--color-background-tertiary); }
+  .app-name { font-size: 14px; font-weight: 500; color: var(--color-text-primary); }
+  .app-desc { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; line-height: 1.4; }
+  .app-alt  { font-size: 11px; color: var(--color-text-tertiary); margin-top: 4px; }
+</style>
+</head>
+<body>
+<h1>Linux Apps Reference</h1>
+<p class="subtitle">나만의 리눅스 배포판을 위한 앱 목록 — 기본 탑재 및 권장 앱 정리</p>
+
+<div class="filter-bar">
+  <button class="filter-btn active" onclick="filterAll(this)">전체</button>
+  <button class="filter-btn" onclick="filterCat(this, 'core')">필수 기본</button>
+  <button class="filter-btn" onclick="filterCat(this, 'system')">시스템</button>
+  <button class="filter-btn" onclick="filterCat(this, 'internet')">인터넷</button>
+  <button class="filter-btn" onclick="filterCat(this, 'media')">미디어</button>
+  <button class="filter-btn" onclick="filterCat(this, 'office')">오피스</button>
+  <button class="filter-btn" onclick="filterCat(this, 'dev')">개발</button>
+  <button class="filter-btn" onclick="filterCat(this, 'extras')">추천 추가</button>
+</div>
+<div id="app-list"></div>
+
+<script>
+const data = [
+  {
+    cat: 'core', label: '필수 기본 앱', desc: '배포판에 기본 탑재되어야 하는 앱들',
+    apps: [
+      { name: 'Files (Nautilus)', desc: '파일 관리자 (GNOME 기본)', alt: '대안: Thunar, Dolphin', tier: 'core' },
+      { name: 'Terminal', desc: 'GNOME Terminal / Konsole', alt: '대안: Alacritty, Kitty', tier: 'core' },
+      { name: 'Text Editor', desc: 'GNOME Text Editor / gedit', alt: '대안: Kate, mousepad', tier: 'core' },
+      { name: 'Settings', desc: 'GNOME 설정 (시스템 설정)', tier: 'core' },
+      { name: 'Software (앱스토어)', desc: 'GNOME Software / Snap Store', alt: '커스텀 앱스토어로 교체 가능', tier: 'core' },
+      { name: 'Archive Manager', desc: 'zip/tar 등 압축 파일 관리', alt: 'File Roller', tier: 'core' },
+      { name: 'Image Viewer', desc: '기본 이미지 뷰어', alt: 'Loupe (GNOME), Shotwell', tier: 'core' },
+      { name: 'Document Viewer', desc: 'PDF 뷰어', alt: 'Evince, Okular', tier: 'core' },
+      { name: 'Calculator', desc: '기본 계산기', alt: 'GNOME Calculator', tier: 'core' },
+      { name: 'Calendar', desc: '캘린더 / 일정 관리', alt: 'GNOME Calendar', tier: 'core' },
+      { name: 'Clock', desc: '시계, 타이머, 스톱워치', alt: 'GNOME Clocks', tier: 'core' },
+      { name: 'Fonts', desc: '글꼴 관리 및 미리보기', alt: 'GNOME Fonts', tier: 'core' },
+    ]
+  },
+  {
+    cat: 'system', label: '시스템 관리', desc: '시스템 유지·관리 도구',
+    apps: [
+      { name: 'System Monitor', desc: 'CPU/RAM/프로세스 모니터', alt: 'GNOME System Monitor', tier: 'core' },
+      { name: 'Disk Usage', desc: '디스크 사용량 분석', alt: 'Baobab, Disk Usage Analyzer', tier: 'core' },
+      { name: 'Disks', desc: '디스크/파티션 관리', alt: 'GNOME Disks', tier: 'core' },
+      { name: 'Passwords & Keys', desc: 'SSH 키, 암호 관리', alt: 'Seahorse', tier: 'rec' },
+      { name: 'Timeshift', desc: '시스템 스냅샷 및 복구', tier: 'rec' },
+      { name: 'GParted', desc: '파티션 편집기', tier: 'rec' },
+      { name: 'Startup Disk Creator', desc: 'USB 부팅 디스크 생성', alt: 'Balena Etcher', tier: 'rec' },
+      { name: 'GNOME Tweaks', desc: 'GNOME 세부 커스터마이징', tier: 'rec' },
+    ]
+  },
+  {
+    cat: 'internet', label: '인터넷 & 통신', desc: '웹, 메일, 메시징 앱',
+    apps: [
+      { name: 'Firefox', desc: '웹 브라우저 (기본 탑재 권장)', alt: '대안: Chromium', tier: 'core' },
+      { name: 'Thunderbird', desc: '이메일 클라이언트', tier: 'core' },
+      { name: 'NetworkManager', desc: '네트워크 연결 관리 (백엔드)', tier: 'core' },
+      { name: 'Telegram', desc: '메시징 앱', tier: 'rec' },
+      { name: 'Discord', desc: '게임·커뮤니티 채팅', tier: 'rec' },
+      { name: 'qBittorrent', desc: '토렌트 클라이언트', alt: '대안: Transmission', tier: 'rec' },
+      { name: 'Remmina', desc: 'RDP/VNC 원격 데스크탑', tier: 'rec' },
+    ]
+  },
+  {
+    cat: 'media', label: '미디어 & 크리에이티브', desc: '음악, 영상, 그래픽 앱',
+    apps: [
+      { name: 'Videos (Totem)', desc: '기본 영상 플레이어', alt: '대안: mpv, VLC', tier: 'core' },
+      { name: 'Music', desc: '기본 음악 플레이어', alt: 'Rhythmbox, Lollypop', tier: 'core' },
+      { name: 'VLC', desc: '만능 미디어 플레이어', tier: 'rec' },
+      { name: 'GIMP', desc: '고급 이미지 편집기', tier: 'rec' },
+      { name: 'Inkscape', desc: '벡터 그래픽 편집기', tier: 'rec' },
+      { name: 'Shotcut', desc: '영상 편집기', alt: '대안: Kdenlive', tier: 'rec' },
+      { name: 'Spotify', desc: '음악 스트리밍', alt: 'Flatpak으로 설치', tier: 'rec' },
+      { name: 'Cheese', desc: '웹캠 앱', alt: 'GNOME Camera', tier: 'rec' },
+    ]
+  },
+  {
+    cat: 'office', label: '오피스 & 생산성', desc: '문서 작업 및 생산성 도구',
+    apps: [
+      { name: 'LibreOffice', desc: '오피스 스위트 (Writer/Calc/Impress)', tier: 'core' },
+      { name: 'ONLYOFFICE', desc: 'MS Office 호환성 높은 오피스', tier: 'rec' },
+      { name: 'Obsidian', desc: '노트 및 지식 관리', tier: 'rec' },
+      { name: 'Foliate', desc: 'e-book 리더', tier: 'rec' },
+      { name: 'Déjà Dup', desc: '백업 도구 (Google Drive 연동)', tier: 'rec' },
+    ]
+  },
+  {
+    cat: 'dev', label: '개발 도구', desc: '개발자용 앱 (선택 탑재)',
+    apps: [
+      { name: 'VS Code', desc: '코드 편집기', alt: 'Flatpak / .deb', tier: 'rec' },
+      { name: 'Git', desc: '버전 관리 시스템 (CLI)', tier: 'rec' },
+      { name: 'Flatpak', desc: '앱 샌드박스 패키지 시스템', tier: 'core' },
+      { name: 'Snap', desc: 'Canonical 앱 패키지', tier: 'core' },
+      { name: 'Docker', desc: '컨테이너 플랫폼', tier: 'rec' },
+      { name: 'GNOME Builder', desc: 'GNOME 앱 개발 IDE', tier: 'rec' },
+      { name: 'DBeaver', desc: 'DB 관리 GUI', tier: 'rec' },
+    ]
+  },
+  {
+    cat: 'extras', label: '있으면 좋은 추천 앱', desc: '일반 사용자 경험을 높여주는 앱들',
+    apps: [
+      { name: 'Extension Manager', desc: 'GNOME 확장 쉽게 관리', tier: 'rec' },
+      { name: 'Flatseal', desc: 'Flatpak 권한 관리 GUI', tier: 'rec' },
+      { name: 'KeePassXC', desc: '오프라인 비밀번호 관리자', tier: 'rec' },
+      { name: 'Flameshot', desc: '강력한 스크린샷 도구', tier: 'rec' },
+      { name: 'Font Downloader', desc: 'Google Fonts 브라우저/설치', tier: 'rec' },
+      { name: 'Upscaler', desc: 'AI 이미지 업스케일링', tier: 'rec' },
+      { name: 'Pika Backup', desc: 'Borg 기반 백업 GUI', tier: 'rec' },
+      { name: 'Bottles', desc: 'Windows 앱/게임 실행 (Wine)', tier: 'rec' },
+      { name: 'Steam', desc: '게임 플랫폼 + Proton', tier: 'rec' },
+      { name: 'ProtonVPN', desc: 'VPN 클라이언트', tier: 'rec' },
+      { name: 'Metadata Cleaner', desc: '파일 메타데이터 제거', tier: 'rec' },
+      { name: 'Celluloid', desc: 'mpv 기반 깔끔한 영상 플레이어', tier: 'rec' },
+    ]
+  },
+];
+
+const ALL_CATS = ['core','system','internet','media','office','dev','extras'];
+
+function renderSections(cats) {
+  const list = document.getElementById('app-list');
+  list.innerHTML = '';
+  data.forEach(section => {
+    if (!cats.includes(section.cat)) return;
+    const sec = document.createElement('div');
+    sec.className = 'section';
+    sec.innerHTML = `<div class="section-title">${section.label} <span class="section-desc">${section.desc}</span></div>`;
+    const grid = document.createElement('div');
+    grid.className = 'apps-grid';
+    section.apps.forEach(app => {
+      const card = document.createElement('div');
+      card.className = 'app-card';
+      const badge = app.tier === 'core'
+        ? '<span class="badge badge-core">기본</span>'
+        : '<span class="badge badge-rec">권장</span>';
+      card.innerHTML = `
+        <div class="app-name">${app.name}${badge}</div>
+        <div class="app-desc">${app.desc}</div>
+        ${app.alt ? `<div class="app-alt">${app.alt}</div>` : ''}
+      `;
+      grid.appendChild(card);
+    });
+    sec.appendChild(grid);
+    list.appendChild(sec);
+  });
+}
+
+function filterAll(btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderSections(ALL_CATS);
+}
+
+function filterCat(btn, cat) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderSections([cat]);
+}
+
+renderSections(ALL_CATS);
+</script>
+
+</body>
+</html>
