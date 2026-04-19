@@ -1,0 +1,75 @@
+[Adblock Plus 2.0]
+! Title: Adfence Lite
+! Description: 광고들 빠짐없이 차단합니다.
+! Version: 1.0.0
+! Last modified: 2026-04-19
+
+! =====================================================================
+! 1. 글로벌 핵심 광고 네트워크 & 트래커 차단
+! =====================================================================
+||googleadservices.com^
+||googlesyndication.com^
+||doubleclick.net^
+||taboola.com^
+||outbrain.com^
+||criteo.com^
+||criteo.net^
+||pubmatic.com^
+||rubiconproject.com^
+||amazon-adsystem.com^
+||adnxs.com^
+||ads-twitter.com^
+||snapads.com^
+||tiktokcdn.com/ads/*
+
+! =====================================================================
+! 2. 한국(국내) 주요 광고 및 기사형 광고 네트워크 차단 (List-KR, YousList 패턴 분석)
+! =====================================================================
+||dable.io^
+||realclick.co.kr^
+||cauly.co.kr^
+||widerplanet.com^
+||adop.cc^
+||targettinggates.com^
+||toastamm.com^
+||mobon.net^
+||inmobi.com^
+||acecounter.com^
+||wcs.naver.net^
+||log.kakao.com^
+
+! =====================================================================
+! 3. 무작위 문자열/스크립트 우회 광고 원천 차단 (와일드카드 * 패턴)
+! 설명: 도메인이 계속 바뀌거나 무작위 폴더명을 쓰는 팝업/배너 차단
+! =====================================================================
+||*.g.doubleclick.net^
+||*.adnxs.com^
+*/ad/banner/*
+*/ads/js/*.js$script
+*/popunder/*.js
+*?ad_id=*
+*&utm_campaign=ad_*
+*cdn.ad.*
+*tracking-pixel.*
+*/wp-content/plugins/*ad-manager*
+*/sponsored-content/*
+*$script,domain=bit.ly|t.co|goo.gl,match-case
+
+! =====================================================================
+! 4. 사이트 내 삽입형/플로팅 광고 숨기기 (Cosmetic Filters & 와일드카드)
+! 설명: 웹페이지 뼈대(DOM)에 기생하는 광고 컨테이너 강제 숨김
+! =====================================================================
+##.ad-container
+##.ad-wrapper
+##.sponsored-post
+##[id^="div-gpt-ad"]
+##[id^="ad-slot-"]
+##[id^="google_ads_iframe"]
+##[class^="ad-banner-"]
+##[class*="powerlink"]
+##[class*="power_link"]
+##[class*="sponsored-text"]
+##.dable-widget
+##.taboola-widget
+##iframe[src*="/ads/"]
+##iframe[src*="adsystem"]
