@@ -2,6 +2,7 @@
 ! Title: Adfence Lite
 ! Description: 광고들 빠짐없이 차단합니다.
 ! Version: 1.0.0
+! Hompage: https://github.com/neramc/neramc.github.io
 ! Last modified: 2026-04-19
 
 ! =====================================================================
